@@ -1,0 +1,152 @@
+<definitions name="WeatherService"
+             targetNamespace="http://example.com/weather"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://example.com/weather"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://example.com/weather">
+            <xsd:element name="getWeatherRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="city" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getWeatherResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <!-- Dữ liệu thời tiết -->
+                        <xsd:element name="temperature" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="humidity" type="xsd:integer" minOccurs="0"/>
+                        <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="windSpeed" type="xsd:float" minOccurs="0"/>
+                        <xsd:element name="feelsLike" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="visibility" type="xsd:integer" minOccurs="0"/>
+                        <xsd:element name="uvIndex" type="xsd:integer" minOccurs="0"/>
+                        
+                        <!-- Thông tin địa điểm -->
+                        <xsd:element name="cityName" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="icon" type="xsd:string" minOccurs="0"/>
+                        
+                        <!-- SỬA LỖI 2: Đổi kiểu dữ liệu cho các trường ngày giờ -->
+                        <xsd:element name="sunrise" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="sunset" type="xsd:string" minOccurs="0"/>
+                        
+                        <!-- Cảnh báo thời tiết (nếu có) -->
+                        <xsd:element name="alerts" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="alert" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="event" type="xsd:string"/>
+                                                <xsd:element name="description" type="xsd:string"/>
+                                                <!-- SỬA LỖI 2: Đổi kiểu dữ liệu -->
+                                                <xsd:element name="start" type="xsd:string"/>
+                                                <xsd:element name="end" type="xsd:string"/>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        
+                        <!-- Trường lỗi -->
+                        <xsd:element name="error" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Map Location Request/Response -->
+            <xsd:element name="getLocationRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="city" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getLocationResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <!-- Thông tin địa lý -->
+                        <xsd:element name="cityName" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="country" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="state" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="latitude" type="xsd:double" minOccurs="0"/>
+                        <xsd:element name="longitude" type="xsd:double" minOccurs="0"/>
+                        
+                        <!-- Thông tin bản đồ -->
+                        <xsd:element name="mapUrl" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="streetMapUrl" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="satelliteMapUrl" type="xsd:string" minOccurs="0"/>
+                        
+                        <!-- Múi giờ -->
+                        <xsd:element name="timezone" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="timezoneOffset" type="xsd:int" minOccurs="0"/>
+                        
+                        <!-- Trường lỗi -->
+                        <xsd:element name="error" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="getWeatherInput">
+        <part name="parameters" element="tns:getWeatherRequest"/>
+    </message>
+    <message name="getWeatherOutput">
+        <part name="parameters" element="tns:getWeatherResponse"/>
+    </message>
+    
+    <!-- Map Location Messages -->
+    <message name="getLocationInput">
+        <part name="parameters" element="tns:getLocationRequest"/>
+    </message>
+    <message name="getLocationOutput">
+        <part name="parameters" element="tns:getLocationResponse"/>
+    </message>
+
+    <!-- SỬA LỖI 1: Đổi tên portType để khớp với code JS -->
+    <portType name="WeatherPort">
+        <operation name="getWeather">
+            <input message="tns:getWeatherInput"/>
+            <output message="tns:getWeatherOutput"/>
+        </operation>
+        <operation name="getLocation">
+            <input message="tns:getLocationInput"/>
+            <output message="tns:getLocationOutput"/>
+        </operation>
+    </portType>
+
+    <binding name="WeatherServiceSoapBinding" type="tns:WeatherPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getWeather">
+            <soap:operation soapAction="getWeather"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getLocation">
+            <soap:operation soapAction="getLocation"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="WeatherService">
+        <!-- SỬA LỖI 1: Đổi tên port để khớp với code JS -->
+        <port name="WeatherPort" binding="tns:WeatherServiceSoapBinding">
+            <soap:address location="http://localhost:3000/weather"/>
+        </port>
+    </service>
+</definitions>

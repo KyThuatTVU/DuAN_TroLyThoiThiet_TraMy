@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="180" fill="#f8f9fa" stroke="none"/>
+  
+  <!-- Robot head -->
+  <rect x="120" y="200" width="160" height="140" rx="20" ry="20" fill="white" stroke="#333" stroke-width="8"/>
+  
+  <!-- Robot ears -->
+  <rect x="100" y="220" width="20" height="40" rx="10" ry="10" fill="white" stroke="#333" stroke-width="6"/>
+  <rect x="280" y="220" width="20" height="40" rx="10" ry="10" fill="white" stroke="#333" stroke-width="6"/>
+  
+  <!-- Robot antenna -->
+  <line x1="140" y1="200" x2="140" y2="160" stroke="#4ECDC4" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="140" cy="150" r="12" fill="none" stroke="#4ECDC4" stroke-width="6"/>
+  
+  <!-- Robot eyes -->
+  <ellipse cx="170" cy="240" rx="15" ry="8" fill="#333"/>
+  <ellipse cx="230" cy="240" rx="15" ry="8" fill="#333"/>
+  
+  <!-- Robot mouth -->
+  <rect x="160" y="280" width="80" height="30" rx="15" ry="15" fill="#4ECDC4"/>
+  <rect x="170" y="285" width="12" height="20" fill="white"/>
+  <rect x="190" y="285" width="12" height="20" fill="white"/>
+  <rect x="210" y="285" width="12" height="20" fill="white"/>
+  
+  <!-- Chat bubble -->
+  <path d="M280 120 L380 120 Q390 120 390 130 L390 180 Q390 190 380 190 L340 190 L320 210 L320 190 L290 190 Q280 190 280 180 L280 130 Q280 120 290 120 Z" fill="#4ECDC4"/>
+  
+  <!-- Chat lines -->
+  <line x1="300" y1="140" x2="370" y2="140" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <line x1="300" y1="160" x2="370" y2="160" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+</svg>
