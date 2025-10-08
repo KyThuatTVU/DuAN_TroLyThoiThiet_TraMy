@@ -32,12 +32,14 @@
 
     .poster{
       max-width:1000px;
+      width:100%;
       margin:0 auto;
       background: var(--bg-cream);
       border-radius:0;
       box-shadow:0 8px 30px rgba(0,0,0,0.15);
       overflow:hidden;
       border:8px solid #999;
+      box-sizing:border-box;
     }
 
     /* Hero */
@@ -66,11 +68,11 @@
     }
     
     .hero-logo img{
-      width:80px;
-      height:80px;
+      width:120px;
+      height:120px;
       object-fit:contain;
       background:white;
-      padding:8px;
+      padding:12px;
       border-radius:50%;
     }
     
@@ -79,18 +81,20 @@
     }
     
     .hero-info .school-name{
-      font-size:16px;
+      font-size:20px;
       font-weight:700;
-      color:#4da6ff;
+      color:#ffffff;
       margin:0;
       text-transform:uppercase;
       letter-spacing:0.5px;
+      text-shadow:0 2px 4px rgba(0,0,0,0.3);
     }
     
     .hero-info .faculty-name{
-      font-size:13px;
-      color:#80c0ff;
+      font-size:16px;
+      color:#ffffff;
       margin:5px 0 0 0;
+      text-shadow:0 1px 3px rgba(0,0,0,0.2);
     }
     
     .hero-qr{
@@ -106,9 +110,10 @@
     }
     
     .hero-qr p{
-      font-size:10px;
-      color:#d8d8d8;
+      font-size:12px;
+      color:#ffffff;
       margin:5px 0 0 0;
+      text-shadow:0 1px 2px rgba(0,0,0,0.2);
     }
     
     .hero-left{
@@ -116,7 +121,7 @@
     }
     .title{
       font-family: 'Roboto', Arial, sans-serif;
-      font-size:32px;
+      font-size:36px;
       font-weight:900;
       margin:0 0 10px 0;
       color:#ffffff;
@@ -124,31 +129,33 @@
       letter-spacing:0.5px;
       text-align:center;
       text-transform:uppercase;
+      text-shadow:0 3px 6px rgba(0,0,0,0.3);
     }
     .subtitle{
       margin:0 0 12px 0;
-      color:#e8e8e8;
-      font-size:14px;
+      color:#ffffff;
+      font-size:16px;
       text-align:center;
       line-height:1.5;
       font-style:italic;
+      text-shadow:0 2px 4px rgba(0,0,0,0.2);
     }
     .meta{
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
       gap:15px;
-      font-size:11px;
-      color:#d8d8d8;
+      font-size:13px;
+      color:#ffffff;
       margin-top:12px;
       text-align:center;
     }
     .meta div{
-      background:rgba(255,255,255,0.1);
+      background:rgba(255,255,255,0.2);
       padding:5px 12px;
       border-radius:3px;
     }
-    .meta b{color:#ffffff}
+    .meta b{color:#ffffff; font-weight:700}
 
     .hero-right{
       display:none;
@@ -163,19 +170,21 @@
     /* Grid content */
     .grid{
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:18px;
-      padding:25px;
+      grid-template-columns: repeat(3, 1fr);
+      gap:15px;
+      padding:20px;
     }
 
     .card{
       background: var(--card-white);
       border-radius:0;
-      padding:18px;
+      padding:15px;
       box-shadow:0 2px 6px rgba(0,0,0,0.1);
       border:1px solid var(--border-gray);
       display:flex;
       flex-direction:column;
+      min-width:0;
+      overflow:hidden;
     }
 
     .card.beige{
@@ -187,11 +196,12 @@
       font-weight:700;
       font-family: 'Roboto', Arial, sans-serif;
       color:var(--text-dark);
-      font-size:15px;
+      font-size:16px;
       text-align:left;
       padding-bottom:6px;
       border-bottom:2px solid var(--border-gray);
       position:relative;
+      word-wrap:break-word;
     }
     
     .section-title::after{
@@ -204,11 +214,14 @@
     }
 
     .small{
-      color:#555;
-      font-size:11px;
+      color:#333;
+      font-size:12px;
       line-height:1.6;
       flex:1;
       text-align:justify;
+      font-weight:500;
+      word-wrap:break-word;
+      overflow-wrap:break-word;
     }
 
     ul.points{
@@ -216,14 +229,26 @@
       margin:8px 0 0 0;
       color:var(--text-dark);
     }
-    ul.points li{margin:5px 0; font-size:11px; line-height:1.5}
+    ul.points li{
+      margin:5px 0; 
+      font-size:12px; 
+      line-height:1.6; 
+      font-weight:500;
+      word-wrap:break-word;
+    }
     
     ol.points{
       padding-left:18px;
       margin:8px 0 0 0;
       color:var(--text-dark);
     }
-    ol.points li{margin:5px 0; font-size:11px; line-height:1.5}
+    ol.points li{
+      margin:5px 0; 
+      font-size:12px; 
+      line-height:1.6; 
+      font-weight:500;
+      word-wrap:break-word;
+    }
 
     /* Card images */
     .card img{
@@ -236,6 +261,18 @@
       object-fit:contain;
       border:1px solid var(--border-gray);
       background:#fff;
+    }
+    
+    /* Image for Giai thừa - no border, full size */
+    .card img.img-full{
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      border:none;
+      background:transparent;
+      padding:0;
+      margin-top:10px;
+      border-radius:4px;
     }
 
     .right-column{
@@ -284,6 +321,7 @@
       .grid{
         grid-template-columns: 1fr;
         gap:15px;
+        padding:15px;
       }
       .title{font-size:24px}
       body{padding:15px 10px}
@@ -294,15 +332,59 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+    
+    @media (min-width:901px){
+      .poster{
+        width:1000px;
+      }
+    }
 
     /* print friendly */
     @media print{
       body{padding:0; background: #fff}
       .poster{box-shadow:none; border:none; margin:0}
+      .export-btn{display:none !important}
+    }
+    
+    /* Export button */
+    .export-btn{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color:white;
+      border:none;
+      padding:15px 30px;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(102,126,234,0.4);
+      transition:all 0.3s ease;
+      z-index:1000;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    
+    .export-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(102,126,234,0.6);
+    }
+    
+    .export-btn:active{
+      transform:translateY(0);
+    }
+    
+    .export-btn:disabled{
+      opacity:0.6;
+      cursor:not-allowed;
     }
   </style>
 </head>
 <body>
+
+  <button class="export-btn" id="exportBtn" onclick="exportPosterAs8K()">
+    📸 Xuất ảnh 8K
+  </button>
 
   <div class="poster" role="main" aria-label="Poster Thiết kế thực nghiệm">
     <section class="hero" aria-hidden="false">
@@ -311,8 +393,11 @@
         <div class="hero-logo">
           <img src="img/tvu.png" alt="Logo trường">
           <div class="hero-info">
-            <p class="school-name">Trường Đại học Trà Vinh</p>
-            <p class="faculty-name">Khoa Kỹ thuật và Công nghệ</p>
+            <p class="school-name">Trường Kỹ Thuật và Công Nghệ</p>
+            <p class="faculty-name">Khoa Công Nghệ Thông Tin</p>
+             <p class="faculty-name">Học phần: Tương tác người & máy</p>
+              <p class="faculty-name">Số tín chỉ: 03</p>
+               <p class="faculty-name">Học kỳ I, Năm học: 2025 - 2026</p>
           </div>
         </div>
         <div class="hero-qr">
@@ -346,7 +431,7 @@
           Thực nghiệm giúp trả lời câu hỏi và xác định mối quan hệ nhân quả. Thực nghiệm được thiết kế tốt có thể tiết lộ những phát hiện khoa học quan trọng. 
           Ngược lại, thực nghiệm được thiết kế kém có thể tạo ra kết quả sai lệch hoặc gây hiểu lầm.
         </p>
-        <img src="img/32.jpg" alt="Thực nghiệm" style="height:120px;">
+        <img src="img/32.jpg" alt="Thực nghiệm" class="img-full">
       </div>
 
       <div class="card beige">
@@ -356,6 +441,7 @@
           <b style="font-size:13px;">Gần-thực nghiệm:</b> Có nhiều nhóm nhưng không có phân bổ ngẫu nhiên.<br><br>
           <b style="font-size:13px;">Phi-thực nghiệm:</b> Chỉ có một nhóm quan sát hoặc một điều kiện.
         </p>
+        <img src="img/thinghiem.jpg" alt="Ba loại nghiên cứu" class="img-full">
       </div>
 
       <div class="card">
@@ -368,6 +454,7 @@
           <li>Được thiết kế để loại bỏ sai lệch tiềm ẩn</li>
           <li>Có thể nhân rộng với mẫu khác nhau</li>
         </ul>
+     
       </div>
 
       <!-- Cột 2 -->
@@ -380,7 +467,7 @@
           <li><b>Ưu điểm:</b> Sạch sẽ hơn, tránh hiệu ứng học tập, kiểm soát tốt mệt mỏi</li>
           <li><b>Nhược điểm:</b> Cần mẫu lớn, khó phát hiện khác biệt có ý nghĩa, chịu ảnh hưởng nhiều từ sự khác biệt cá nhân</li>
         </ul>
-        <img src="img/image.png" alt="Thiết kế Giữa-nhóm">
+        <img src="img/image.png" alt="Thiết kế Giữa-nhóm" class="img-full">
       </div>
 
       <div class="card">
@@ -392,7 +479,7 @@
           <li><b>Ưu điểm:</b> Cần mẫu nhỏ hơn, cách ly hiệu quả sự khác biệt cá nhân, kiểm định mạnh hơn</li>
           <li><b>Nhược điểm:</b> Khó kiểm soát hiệu ứng học tập và mệt mỏi</li>
         </ul>
-        <img src="img/z7089589385593_ddd6cd4cd367fe10ec0318a7f243e34e.jpg" alt="Thiết kế Trong-nhóm">
+        <img src="img/z7089589385593_ddd6cd4cd367fe10ec0318a7f243e34e.jpg" alt="Thiết kế Trong-nhóm" class="img-full">
       </div>
 
       <div class="card beige">
@@ -404,7 +491,7 @@
           <b>Số điều kiện = V₁ × V₂ × ... × Vₙ</b><br>
           (V là số mức độ trong mỗi biến)
         </p>
-        <img src="https://via.placeholder.com/400x140/5a5a5a/ffffff?text=Thiết+kế+Giai+thừa" alt="Thiết kế giai thừa">
+        <img src="img/giaithua.png" alt="Thiết kế giai thừa" class="img-full">
       </div>
 
       <!-- Cột 3 -->
@@ -420,7 +507,7 @@
           <li>Hành vi của người thực nghiệm</li>
           <li>Môi trường thực nghiệm</li>
         </ul>
-        <img src="https://via.placeholder.com/400x120/f39c12/ffffff?text=Nguồn+sai+lệch" alt="Nguồn sai lệch">
+        <img src="img/sailech.jpg" alt="Nguồn sai lệch" class="img-full">
       </div>
 
       <div class="card beige">
@@ -433,7 +520,7 @@
           <li>Kiểm soát môi trường</li>
           <li>Chạy thử nghiệm thí điểm nhiều lần</li>
         </ul>
-        <img src="img/2.jpg" alt="Kiểm soát" style="height:auto; max-height:100px; width:100%; object-fit:contain; padding-top:8px; border:none; background:transparent;">
+        <img src="img/2.jpg" alt="Kiểm soát" class="img-full">
       </div>
 
       <div class="card">
@@ -447,14 +534,84 @@
           <li>Phân tích dữ liệu</li>
           <li>Báo cáo kết quả</li>
         </ol>
+        <img src="img/wt.jpg" alt="Quy trình thực nghiệm" class="img-full">
       </div>
     </section>
 
     <div class="footer">
       <div>Poster nghiên cứu — Thiết kế thực nghiệm trong HCI</div>
-      <div>Nguyễn Huỳnh Kỹ Thuật • Thạch Kọng Saoane • 2025</div>
+      <div>Nguyễn Huỳnh Kỹ Thuật • 110122175 • DA22TTC</div>
     </div>
   </div>
+
+  <!-- html2canvas library for high-quality image export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <script>
+    async function exportPosterAs8K() {
+      const btn = document.getElementById('exportBtn');
+      const poster = document.querySelector('.poster');
+      
+      // Disable button during export
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang xuất...';
+      
+      try {
+        // Get original dimensions
+        const originalWidth = poster.offsetWidth;
+        const originalHeight = poster.offsetHeight;
+        
+        // 8K resolution calculation (7680 x 4320 for landscape, we'll use proportional scaling)
+        const targetWidth = 7680;
+        const scale = targetWidth / originalWidth;
+        
+        // Hide the export button before capturing
+        btn.style.display = 'none';
+        
+        // Use html2canvas with high quality settings
+        const canvas = await html2canvas(poster, {
+          scale: scale,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#e8e8e8',
+          logging: false,
+          width: originalWidth,
+          height: originalHeight,
+          windowWidth: originalWidth,
+          windowHeight: originalHeight,
+          imageTimeout: 0,
+          removeContainer: true
+        });
+        
+        // Show button again
+        btn.style.display = 'block';
+        
+        // Convert canvas to blob with high quality
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
+          link.download = `Poster_HCI_8K_${timestamp}.png`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+          
+          // Reset button
+          btn.disabled = false;
+          btn.textContent = '📸 Xuất ảnh 8K';
+          
+          alert('✅ Xuất ảnh thành công! Độ phân giải: ' + canvas.width + 'x' + canvas.height + 'px');
+        }, 'image/png', 1.0);
+        
+      } catch (error) {
+        console.error('Lỗi khi xuất ảnh:', error);
+        alert('❌ Có lỗi xảy ra khi xuất ảnh. Vui lòng thử lại!');
+        btn.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '📸 Xuất ảnh 8K';
+      }
+    }
+  </script>
 
 </body>
 </html>
