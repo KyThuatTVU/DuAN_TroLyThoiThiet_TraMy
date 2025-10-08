@@ -126,7 +126,12 @@ const setupMiddleware = (app) => {
     app.use(requestLogger);
     
     // Static files
-    const staticPath = 'Frontend';
+    // Check if running in Docker (files in /app) or locally (files in Backend/..)
+    const isDocker = __dirname.startsWith('/app');
+    const staticPath = isDocker 
+        ? path.join('/app', 'Frontend')
+        : path.join(__dirname, '..', '..', 'Frontend');
+    
     app.use(express.static(staticPath));
     app.use('/img', express.static(path.join(staticPath, 'img')));
     console.log('Static middleware added for:', path.resolve(staticPath));

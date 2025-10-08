@@ -197,13 +197,12 @@ class ChatController {
      */
     async getAIResponse(prompt, userMessage, foundCity, weatherData) {
         try {
-            // Sử dụng geminiService mới
+            // Use Gemini AI service for intelligent responses
             const aiResponse = await geminiService.askGemini(prompt);
             return aiResponse;
         } catch (geminiError) {
             console.error('Lỗi Gemini AI:', geminiError.message);
             console.log('Sử dụng fallback response');
-            
             return this.generateFallbackResponse(userMessage, foundCity, weatherData);
         }
     }
@@ -212,20 +211,46 @@ class ChatController {
      * Tạo phản hồi dự phòng khi AI không hoạt động
      */
     generateFallbackResponse(userMessage, foundCity, weatherData) {
+        const lowerMsg = userMessage.toLowerCase();
+        
         // Xử lý các câu chào hỏi cơ bản
         const greetings = ['xin chào', 'chào', 'hello', 'hi', 'hey'];
-        const isGreeting = greetings.some(greeting => 
-            userMessage.toLowerCase().includes(greeting)
-        );
+        const isGreeting = greetings.some(greeting => lowerMsg.includes(greeting));
         
         if (isGreeting && !foundCity) {
             return "Chào bạn! 👋 Mình là Trà My - một cô gái trẻ đam mê thời tiết! 😊💖\n\n" +
                    "Mình có thể giúp bạn:\n" +
                    "🌤️ Kiểm tra thời tiết các thành phố\n" +
-                   "� Tư vấn trang phục xinh đẹp phù hợp\n" +
+                   "👗 Tư vấn trang phục xinh đẹp phù hợp\n" +
                    "📸 Phân tích ảnh thời tiết bằng AI\n" +
                    "💬 Trò chuyện thân thiện về nhiều chủ đề khác\n\n" +
                    "Hãy thử hỏi: 'Thời tiết Hà Nội hôm nay?' hoặc gửi ảnh thời tiết, hoặc chỉ cần chat với mình! 😄✨";
+        }
+        
+        // Xử lý câu hỏi về thơ, truyện, sáng tạo
+        if (lowerMsg.includes('thơ') || lowerMsg.includes('làm thơ')) {
+            return "🌸 Mình rất thích thơ! Đây là một bài thơ nhỏ về thời tiết:\n\n" +
+                   "Mây trời bay lững lờ,\n" +
+                   "Nắng vàng trải khắp nơi,\n" +
+                   "Gió nhẹ thổi thoảng tới,\n" +
+                   "Trời đẹp lòng rộn vui! 🌤️\n\n" +
+                   "Bạn muốn biết thời tiết ở đâu để mình làm thơ riêng không? 😊";
+        }
+        
+        if (lowerMsg.includes('kể chuyện') || lowerMsg.includes('truyện')) {
+            return "📖 Mình có một câu chuyện nhỏ này:\n\n" +
+                   "Ngày xửa ngày xưa, có một đám mây nhỏ rất thích du lịch. Nó bay từ Bắc vào Nam, " +
+                   "mang theo những cơn mưa nhẹ đến cho mọi người. Mọi người đều yêu quý đám mây nhỏ này! ☁️💧\n\n" +
+                   "Bạn có muốn biết thời tiết ở đâu không? 😊";
+        }
+        
+        if (lowerMsg.includes('hát') || lowerMsg.includes('bài hát')) {
+            return "🎵 Mình không hát được nhưng có thể gợi ý:\n" +
+                   "♪ Nắng chiều vàng rực rỡ ♪\n" +
+                   "♪ Gió nhẹ thổi qua đây ♪\n" +
+                   "♪ Trời đẹp lòng phơi phới ♪\n" +
+                   "♪ Cùng nhau đi chơi thôi! ♪ 🌞\n\n" +
+                   "Bạn muốn kiểm tra thời tiết ở đâu không? 😊";
         }
         
         if (weatherData && !weatherData.error) {
@@ -251,6 +276,7 @@ class ChatController {
         reply += "\n\n💡 Ví dụ bạn có thể hỏi:\n";
         reply += "• 'Thời tiết Hà Nội hôm nay?'\n";
         reply += "• 'Trời ở Sài Gòn ra sao?'\n";
+        reply += "• 'Làm thơ cho mình' 🌸\n";
         reply += "• 📸 Gửi ảnh thời tiết cho mình phân tích\n"; 
         reply += "• Hoặc chỉ cần chat với mình! 💬✨";
         

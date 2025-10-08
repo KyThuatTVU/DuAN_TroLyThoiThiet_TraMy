@@ -15,12 +15,14 @@ const PORT = process.env.PORT || 3000;
 // === MIDDLEWARE SETUP ===
 setupMiddleware(app);
 
-console.log('Files in Frontend:', fs.readdirSync('./Frontend'));
-console.log('Files in Frontend/img:', fs.readdirSync('./Frontend/img'));
-
 // === ROOT ROUTE FOR FRONTEND ===
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend', 'index.html'));
+    // Check if running in Docker or locally
+    const isDocker = __dirname.startsWith('/app');
+    const indexPath = isDocker
+        ? path.join('/app', 'Frontend', 'index.html')
+        : path.join(__dirname, '..', 'Frontend', 'index.html');
+    res.sendFile(indexPath);
 });
 
 // === API ROUTES ===

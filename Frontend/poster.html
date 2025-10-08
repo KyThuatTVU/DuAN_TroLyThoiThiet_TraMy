@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poster — Thiết kế Thực nghiệm (HCI)</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --header-bg:#5a5a5a;
+      --bg-cream:#f5f3ed;
+      --card-white:#ffffff;
+      --card-beige:#f9f7f1;
+      --text-dark:#333333;
+      --border-gray:#d4d4d4;
+      --accent-orange:#f39c12;
+      --accent-green:#6b8e23;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Open Sans', Arial, sans-serif;
+      background: #e8e8e8;
+      color:var(--text-dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:30px 15px;
+    }
+
+    .poster{
+      max-width:1000px;
+      margin:0 auto;
+      background: var(--bg-cream);
+      border-radius:0;
+      box-shadow:0 8px 30px rgba(0,0,0,0.15);
+      overflow:hidden;
+      border:8px solid #999;
+    }
+
+    /* Hero */
+    .hero{
+      display:block;
+      padding:25px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius:0;
+      margin-bottom:0;
+      border:none;
+    }
+    
+    .hero-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      padding-bottom:15px;
+      border-bottom:2px solid rgba(255,255,255,0.2);
+    }
+    
+    .hero-logo{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+    
+    .hero-logo img{
+      width:80px;
+      height:80px;
+      object-fit:contain;
+      background:white;
+      padding:8px;
+      border-radius:50%;
+    }
+    
+    .hero-info{
+      text-align:left;
+    }
+    
+    .hero-info .school-name{
+      font-size:16px;
+      font-weight:700;
+      color:#4da6ff;
+      margin:0;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    
+    .hero-info .faculty-name{
+      font-size:13px;
+      color:#80c0ff;
+      margin:5px 0 0 0;
+    }
+    
+    .hero-qr{
+      text-align:right;
+    }
+    
+    .hero-qr img{
+      width:70px;
+      height:70px;
+      background:white;
+      padding:5px;
+      border-radius:5px;
+    }
+    
+    .hero-qr p{
+      font-size:10px;
+      color:#d8d8d8;
+      margin:5px 0 0 0;
+    }
+    
+    .hero-left{
+      padding:0;
+    }
+    .title{
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size:32px;
+      font-weight:900;
+      margin:0 0 10px 0;
+      color:#ffffff;
+      line-height:1.2;
+      letter-spacing:0.5px;
+      text-align:center;
+      text-transform:uppercase;
+    }
+    .subtitle{
+      margin:0 0 12px 0;
+      color:#e8e8e8;
+      font-size:14px;
+      text-align:center;
+      line-height:1.5;
+      font-style:italic;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:15px;
+      font-size:11px;
+      color:#d8d8d8;
+      margin-top:12px;
+      text-align:center;
+    }
+    .meta div{
+      background:rgba(255,255,255,0.1);
+      padding:5px 12px;
+      border-radius:3px;
+    }
+    .meta b{color:#ffffff}
+
+    .hero-right{
+      display:none;
+    }
+    .hero-right img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    /* Grid content */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:18px;
+      padding:25px;
+    }
+
+    .card{
+      background: var(--card-white);
+      border-radius:0;
+      padding:18px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      border:1px solid var(--border-gray);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .card.beige{
+      background: var(--card-beige);
+    }
+
+    .section-title{
+      margin:0 0 10px 0;
+      font-weight:700;
+      font-family: 'Roboto', Arial, sans-serif;
+      color:var(--text-dark);
+      font-size:15px;
+      text-align:left;
+      padding-bottom:6px;
+      border-bottom:2px solid var(--border-gray);
+      position:relative;
+    }
+    
+    .section-title::after{
+      content:'↗';
+      position:absolute;
+      right:0;
+      top:0;
+      font-size:18px;
+      color:#999;
+    }
+
+    .small{
+      color:#555;
+      font-size:11px;
+      line-height:1.6;
+      flex:1;
+      text-align:justify;
+    }
+
+    ul.points{
+      padding-left:18px;
+      margin:8px 0 0 0;
+      color:var(--text-dark);
+    }
+    ul.points li{margin:5px 0; font-size:11px; line-height:1.5}
+    
+    ol.points{
+      padding-left:18px;
+      margin:8px 0 0 0;
+      color:var(--text-dark);
+    }
+    ol.points li{margin:5px 0; font-size:11px; line-height:1.5}
+
+    /* Card images */
+    .card img{
+      width:100%;
+      border-radius:0;
+      display:block;
+      margin-top:auto;
+      padding-top:10px;
+      height:90px;
+      object-fit:contain;
+      border:1px solid var(--border-gray);
+      background:#fff;
+    }
+
+    .right-column{
+      display:contents;
+    }
+    .right-column .card + .card{margin-top:0}
+
+    /* Chart placeholder */
+    .chart-placeholder{
+      width:100%;
+      height:150px;
+      background:linear-gradient(to top, var(--accent-orange) 0%, var(--accent-orange) 40%, transparent 40%, transparent 100%),
+                 linear-gradient(to top, var(--accent-green) 0%, var(--accent-green) 60%, transparent 60%, transparent 100%);
+      background-size:20% 100%, 20% 100%;
+      background-position:10% 100%, 35% 100%;
+      background-repeat:no-repeat;
+      border:1px solid var(--border-gray);
+      margin-top:10px;
+      position:relative;
+    }
+
+    /* footer strip */
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      padding:15px 25px;
+      margin-top:0;
+      background: var(--card-beige);
+      border:none;
+      border-top:2px solid var(--border-gray);
+      border-radius:0;
+      font-size:10px;
+      color:#666;
+      text-align:left;
+    }
+
+    /* full width cards */
+    .card.full-width{
+      grid-column: 1 / -1;
+    }
+
+    /* responsive */
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns: 1fr;
+        gap:15px;
+      }
+      .title{font-size:24px}
+      body{padding:15px 10px}
+    }
+    
+    @media (min-width:700px) and (max-width:900px){
+      .grid{
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* print friendly */
+    @media print{
+      body{padding:0; background: #fff}
+      .poster{box-shadow:none; border:none; margin:0}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster" role="main" aria-label="Poster Thiết kế thực nghiệm">
+    <section class="hero" aria-hidden="false">
+      <!-- Header with Logo and School Info -->
+      <div class="hero-header">
+        <div class="hero-logo">
+          <img src="img/tvu.png" alt="Logo trường">
+          <div class="hero-info">
+            <p class="school-name">Trường Đại học Trà Vinh</p>
+            <p class="faculty-name">Khoa Kỹ thuật và Công nghệ</p>
+          </div>
+        </div>
+        <div class="hero-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Poster" alt="QR Code">
+          <p>Scan QR</p>
+        </div>
+      </div>
+      
+      <div class="hero-left">
+        <h1 class="title">CHƯƠNG 3- THIẾT KẾ THỰC NGHIỆM </h1>
+        <p class="subtitle">Tóm tắt các nguyên tắc thiết kế thí nghiệm trong HCI: chọn thiết kế, kiểm soát sai lệch, quy trình và phương pháp đánh giá.</p>
+
+        <div class="meta">
+          <div><b>Sinh viên thực hiện:</b>&nbsp;Nguyễn Huỳnh Kỹ Thuật</div>
+          <div><b>Giảng viên hướng dẫn:</b>&nbsp;Thạch Kọng Saoane</div>
+          <div><b>Chương:</b>&nbsp;Chương 3 — Thiết kế thực nghiệm</div>
+        </div>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <!-- Hero image: minh hoạ lab HCI -->
+        <img src="https://source.unsplash.com/1200x800/?usability,lab" alt="Usability lab — minh hoạ">
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- Cột 1 -->
+      <div class="card">
+        <h2 class="section-title">Giới thiệu</h2>
+        <p class="small">
+          Thực nghiệm giúp trả lời câu hỏi và xác định mối quan hệ nhân quả. Thực nghiệm được thiết kế tốt có thể tiết lộ những phát hiện khoa học quan trọng. 
+          Ngược lại, thực nghiệm được thiết kế kém có thể tạo ra kết quả sai lệch hoặc gây hiểu lầm.
+        </p>
+        <img src="img/32.jpg" alt="Thực nghiệm" style="height:120px;">
+      </div>
+
+      <div class="card beige">
+        <h2 class="section-title">Ba loại nghiên cứu</h2>
+        <p class="small" style="font-size:12px; line-height:1.7;">
+          <b style="font-size:13px;">Thực nghiệm thật:</b> Có nhiều nhóm/điều kiện và người tham gia được phân bổ ngẫu nhiên.<br><br>
+          <b style="font-size:13px;">Gần-thực nghiệm:</b> Có nhiều nhóm nhưng không có phân bổ ngẫu nhiên.<br><br>
+          <b style="font-size:13px;">Phi-thực nghiệm:</b> Chỉ có một nhóm quan sát hoặc một điều kiện.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Đặc điểm thực nghiệm thật</h2>
+        <ul class="points">
+          <li>Dựa trên giả thuyết nghiên cứu có thể kiểm định</li>
+          <li>Có ít nhất hai điều kiện (xử lý và đối chứng)</li>
+          <li>Biến phụ thuộc được đo bằng phép đo định lượng</li>
+          <li>Kết quả được phân tích qua kiểm định thống kê</li>
+          <li>Được thiết kế để loại bỏ sai lệch tiềm ẩn</li>
+          <li>Có thể nhân rộng với mẫu khác nhau</li>
+        </ul>
+      </div>
+
+      <!-- Cột 2 -->
+      <div class="card beige">
+        <h2 class="section-title">Thiết kế Giữa-nhóm</h2>
+        <p class="small">
+          Mỗi người tham gia chỉ tiếp xúc với một điều kiện thực nghiệm.
+        </p>
+        <ul class="points">
+          <li><b>Ưu điểm:</b> Sạch sẽ hơn, tránh hiệu ứng học tập, kiểm soát tốt mệt mỏi</li>
+          <li><b>Nhược điểm:</b> Cần mẫu lớn, khó phát hiện khác biệt có ý nghĩa, chịu ảnh hưởng nhiều từ sự khác biệt cá nhân</li>
+        </ul>
+        <img src="img/image.png" alt="Thiết kế Giữa-nhóm">
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Thiết kế Trong-nhóm</h2>
+        <p class="small">
+          Mỗi người tham gia tiếp xúc với tất cả các điều kiện thực nghiệm.
+        </p>
+        <ul class="points">
+          <li><b>Ưu điểm:</b> Cần mẫu nhỏ hơn, cách ly hiệu quả sự khác biệt cá nhân, kiểm định mạnh hơn</li>
+          <li><b>Nhược điểm:</b> Khó kiểm soát hiệu ứng học tập và mệt mỏi</li>
+        </ul>
+        <img src="img/z7089589385593_ddd6cd4cd367fe10ec0318a7f243e34e.jpg" alt="Thiết kế Trong-nhóm">
+      </div>
+
+      <div class="card beige">
+        <h2 class="section-title">Thiết kế Giai thừa</h2>
+        <p class="small">
+          Được áp dụng khi thực nghiệm điều tra nhiều hơn một biến độc lập. Cho phép nghiên cứu đồng thời tác động của tất cả các biến và hiệu ứng tương tác giữa chúng.
+        </p>
+        <p class="small">
+          <b>Số điều kiện = V₁ × V₂ × ... × Vₙ</b><br>
+          (V là số mức độ trong mỗi biến)
+        </p>
+        <img src="https://via.placeholder.com/400x140/5a5a5a/ffffff?text=Thiết+kế+Giai+thừa" alt="Thiết kế giai thừa">
+      </div>
+
+      <!-- Cột 3 -->
+      <div class="card">
+        <h2 class="section-title">Nguồn sai lệch hệ thống</h2>
+        <p class="small">
+          Sai lệch hệ thống luôn đẩy giá trị quan sát theo một hướng. 5 nguồn chính:
+        </p>
+        <ul class="points">
+          <li>Công cụ đo lường</li>
+          <li>Quy trình thực nghiệm</li>
+          <li>Người tham gia</li>
+          <li>Hành vi của người thực nghiệm</li>
+          <li>Môi trường thực nghiệm</li>
+        </ul>
+        <img src="https://via.placeholder.com/400x120/f39c12/ffffff?text=Nguồn+sai+lệch" alt="Nguồn sai lệch">
+      </div>
+
+      <div class="card beige">
+        <h2 class="section-title">Kiểm soát sai lệch</h2>
+        <ul class="points">
+          <li>Ngẫu nhiên hóa thứ tự điều kiện</li>
+          <li>Chuẩn bị tài liệu hướng dẫn chi tiết</li>
+          <li>Tuyển dụng người tham gia cẩn thận</li>
+          <li>Đào tạo người thực nghiệm</li>
+          <li>Kiểm soát môi trường</li>
+          <li>Chạy thử nghiệm thí điểm nhiều lần</li>
+        </ul>
+        <img src="img/2.jpg" alt="Kiểm soát" style="height:auto; max-height:100px; width:100%; object-fit:contain; padding-top:8px; border:none; background:transparent;">
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Quy trình thực nghiệm</h2>
+        <ol class="points">
+          <li>Xác định giả thuyết nghiên cứu</li>
+          <li>Thiết kế cấu trúc nghiên cứu</li>
+          <li>Chạy thử nghiệm thí điểm</li>
+          <li>Tuyển dụng người tham gia</li>
+          <li>Thu thập dữ liệu thực tế</li>
+          <li>Phân tích dữ liệu</li>
+          <li>Báo cáo kết quả</li>
+        </ol>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Poster nghiên cứu — Thiết kế thực nghiệm trong HCI</div>
+      <div>Nguyễn Huỳnh Kỹ Thuật • Thạch Kọng Saoane • 2025</div>
+    </div>
+  </div>
+
+</body>
+</html>
