@@ -1,0 +1,249 @@
+{
+  "name": "Trợ Lý AI - Mobile Design Tokens",
+  "description": "Design tokens for elderly-friendly AI assistant mobile app",
+  "version": "1.0.0",
+  "colors": {
+    "primary": {
+      "gradient": {
+        "start": "#667eea",
+        "end": "#764ba2",
+        "angle": 135
+      },
+      "solid": "#667eea"
+    },
+    "success": {
+      "gradient": {
+        "start": "#11998e",
+        "end": "#38ef7d",
+        "angle": 135
+      },
+      "solid": "#11998e"
+    },
+    "warning": {
+      "gradient": {
+        "start": "#f093fb",
+        "end": "#f5576c",
+        "angle": 135
+      },
+      "solid": "#f093fb"
+    },
+    "info": {
+      "gradient": {
+        "start": "#4facfe",
+        "end": "#00f2fe",
+        "angle": 135
+      },
+      "solid": "#4facfe"
+    },
+    "danger": {
+      "gradient": {
+        "start": "#fa709a",
+        "end": "#fee140",
+        "angle": 135
+      },
+      "solid": "#f5576c"
+    },
+    "neutral": {
+      "white": "#FFFFFF",
+      "lightBg": "#F8F9FF",
+      "lightGray": "#F9F9F9",
+      "border": "#E0E0E0",
+      "gray": "#999999",
+      "darkGray": "#666666",
+      "black": "#333333"
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": "Inter, Segoe UI, system-ui, sans-serif",
+      "monospace": "Courier New, monospace"
+    },
+    "fontSize": {
+      "heading1": "3.5em",
+      "heading1Px": "56px",
+      "heading2": "2em",
+      "heading2Px": "32px",
+      "heading3": "1.5em",
+      "heading3Px": "24px",
+      "bodyLarge": "1.4em",
+      "bodyLargePx": "22.4px",
+      "body": "1.1em",
+      "bodyPx": "17.6px",
+      "button": "1.2em",
+      "buttonPx": "19.2px",
+      "caption": "0.85em",
+      "captionPx": "13.6px"
+    },
+    "fontWeight": {
+      "regular": 400,
+      "medium": 500,
+      "semiBold": 600,
+      "bold": 700
+    },
+    "lineHeight": {
+      "tight": 1.2,
+      "normal": 1.5,
+      "relaxed": 1.8,
+      "loose": 2.0
+    }
+  },
+  "spacing": {
+    "xs": "8px",
+    "sm": "12px",
+    "md": "15px",
+    "lg": "20px",
+    "xl": "25px",
+    "xxl": "30px",
+    "xxxl": "40px"
+  },
+  "borderRadius": {
+    "small": "10px",
+    "medium": "15px",
+    "large": "20px",
+    "xlarge": "30px",
+    "round": "50%"
+  },
+  "shadows": {
+    "small": "0 3px 10px rgba(0, 0, 0, 0.1)",
+    "medium": "0 4px 15px rgba(0, 0, 0, 0.1)",
+    "large": "0 10px 40px rgba(0, 0, 0, 0.2)",
+    "xlarge": "0 20px 60px rgba(0, 0, 0, 0.15)",
+    "button": "0 4px 15px rgba(102, 126, 234, 0.3)"
+  },
+  "mobileFrame": {
+    "width": "375px",
+    "height": "812px",
+    "borderRadius": "30px",
+    "statusBar": {
+      "height": "50px",
+      "padding": "15px 25px"
+    },
+    "bottomNav": {
+      "height": "70px",
+      "padding": "15px 0"
+    },
+    "safeArea": {
+      "top": "20px",
+      "bottom": "20px",
+      "left": "20px",
+      "right": "20px"
+    }
+  },
+  "touchTargets": {
+    "minimum": "44px",
+    "buttonHeight": "50px",
+    "buttonHeightLarge": "60px",
+    "iconSize": "24px",
+    "iconSizeLarge": "32px",
+    "gap": "12px"
+  },
+  "components": {
+    "button": {
+      "primary": {
+        "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "color": "#FFFFFF",
+        "padding": "20px 40px",
+        "borderRadius": "15px",
+        "fontSize": "1.2em",
+        "fontWeight": 700
+      },
+      "secondary": {
+        "background": "#FFFFFF",
+        "color": "#667eea",
+        "border": "2px solid #667eea",
+        "padding": "20px 40px",
+        "borderRadius": "15px",
+        "fontSize": "1.2em",
+        "fontWeight": 700
+      },
+      "control": {
+        "padding": "18px",
+        "borderRadius": "15px",
+        "fontSize": "1.1em",
+        "fontWeight": 700
+      }
+    },
+    "card": {
+      "background": "#FFFFFF",
+      "borderRadius": "15px",
+      "padding": "15px",
+      "shadow": "0 3px 10px rgba(0, 0, 0, 0.1)"
+    },
+    "uploadZone": {
+      "border": "3px dashed #667eea",
+      "borderRadius": "20px",
+      "padding": "50px 20px",
+      "background": "#F8F9FF"
+    },
+    "textDisplay": {
+      "background": "#FFFFFF",
+      "borderRadius": "15px",
+      "padding": "25px",
+      "fontSize": "1.4em",
+      "lineHeight": 1.8,
+      "border": "2px solid #E0E0E0"
+    }
+  },
+  "animations": {
+    "transition": "all 0.3s ease",
+    "spinner": "spin 1s linear infinite",
+    "progress": "progress 2s ease-in-out infinite"
+  },
+  "screens": [
+    {
+      "id": "screen-1",
+      "name": "Home/Upload",
+      "description": "Main screen with upload functionality",
+      "components": [
+        "header",
+        "uploadZone",
+        "primaryButton",
+        "secondaryButton",
+        "bottomNav"
+      ]
+    },
+    {
+      "id": "screen-2",
+      "name": "Processing",
+      "description": "Loading state with progress indicator",
+      "components": [
+        "header",
+        "spinner",
+        "progressBar",
+        "statusText",
+        "bottomNav"
+      ]
+    },
+    {
+      "id": "screen-3",
+      "name": "Result & Read",
+      "description": "Display extracted text with audio controls",
+      "components": [
+        "header",
+        "imagePreview",
+        "textDisplay",
+        "speedSlider",
+        "controlButtons",
+        "bottomNav"
+      ]
+    },
+    {
+      "id": "screen-4",
+      "name": "History",
+      "description": "List of saved text extractions",
+      "components": [
+        "header",
+        "historyCard",
+        "actionButtons",
+        "bottomNav"
+      ]
+    }
+  ],
+  "accessibility": {
+    "minFontSize": "1.4em",
+    "minTouchTarget": "44px",
+    "contrastRatio": "4.5:1",
+    "iconSize": "24-32px",
+    "buttonSpacing": "12-15px"
+  }
+}

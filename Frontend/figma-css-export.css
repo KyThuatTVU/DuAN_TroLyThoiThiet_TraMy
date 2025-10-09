@@ -1,0 +1,461 @@
+/* ===========================================
+   Trợ Lý AI - Mobile App Design System
+   CSS Export for Figma Import
+   =========================================== */
+
+/* ========== COLOR VARIABLES ========== */
+:root {
+  /* Primary Colors */
+  --color-primary-start: #667eea;
+  --color-primary-end: #764ba2;
+  --color-primary-solid: #667eea;
+  
+  /* Success Colors */
+  --color-success-start: #11998e;
+  --color-success-end: #38ef7d;
+  --color-success-solid: #11998e;
+  
+  /* Warning Colors */
+  --color-warning-start: #f093fb;
+  --color-warning-end: #f5576c;
+  --color-warning-solid: #f093fb;
+  
+  /* Info Colors */
+  --color-info-start: #4facfe;
+  --color-info-end: #00f2fe;
+  --color-info-solid: #4facfe;
+  
+  /* Danger Colors */
+  --color-danger-start: #fa709a;
+  --color-danger-end: #fee140;
+  --color-danger-solid: #f5576c;
+  
+  /* Neutral Colors */
+  --color-white: #FFFFFF;
+  --color-light-bg: #F8F9FF;
+  --color-light-gray: #F9F9F9;
+  --color-border: #E0E0E0;
+  --color-gray: #999999;
+  --color-dark-gray: #666666;
+  --color-black: #333333;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ========== TYPOGRAPHY ========== */
+/* Font Families */
+.font-primary {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.font-monospace {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Font Sizes */
+.text-heading-1 {
+  font-size: 3.5em; /* 56px */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-heading-2 {
+  font-size: 2em; /* 32px */
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.text-heading-3 {
+  font-size: 1.5em; /* 24px */
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.text-body-large {
+  font-size: 1.4em; /* 22.4px */
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.text-body {
+  font-size: 1.1em; /* 17.6px */
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.text-button {
+  font-size: 1.2em; /* 19.2px */
+  font-weight: 700;
+  line-height: 1;
+}
+
+.text-caption {
+  font-size: 0.85em; /* 13.6px */
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Font Weights */
+.font-regular { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* ========== SPACING ========== */
+.spacing-xs { margin: 8px; }
+.spacing-sm { margin: 12px; }
+.spacing-md { margin: 15px; }
+.spacing-lg { margin: 20px; }
+.spacing-xl { margin: 25px; }
+.spacing-xxl { margin: 30px; }
+.spacing-xxxl { margin: 40px; }
+
+.padding-xs { padding: 8px; }
+.padding-sm { padding: 12px; }
+.padding-md { padding: 15px; }
+.padding-lg { padding: 20px; }
+.padding-xl { padding: 25px; }
+.padding-xxl { padding: 30px; }
+.padding-xxxl { padding: 40px; }
+
+.gap-xs { gap: 8px; }
+.gap-sm { gap: 12px; }
+.gap-md { gap: 15px; }
+.gap-lg { gap: 20px; }
+.gap-xl { gap: 25px; }
+.gap-xxl { gap: 30px; }
+
+/* ========== BORDER RADIUS ========== */
+.radius-small { border-radius: 10px; }
+.radius-medium { border-radius: 15px; }
+.radius-large { border-radius: 20px; }
+.radius-xlarge { border-radius: 30px; }
+.radius-round { border-radius: 50%; }
+
+/* ========== SHADOWS ========== */
+.shadow-small { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); }
+.shadow-medium { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+.shadow-large { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
+.shadow-xlarge { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); }
+.shadow-button { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+
+/* ========== MOBILE FRAME ========== */
+.mobile-frame {
+  width: 375px;
+  height: 812px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.status-bar {
+  height: 50px;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.bottom-nav {
+  height: 70px;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: white;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ========== BUTTONS ========== */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 20px 40px;
+  border-radius: 15px;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: var(--color-white);
+  color: var(--color-primary-solid);
+  border: 2px solid var(--color-primary-solid);
+  padding: 20px 40px;
+  border-radius: 15px;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+.btn-secondary:hover {
+  background: var(--color-light-bg);
+}
+
+.btn-success {
+  background: var(--gradient-success);
+  color: var(--color-white);
+  border: none;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+.btn-warning {
+  background: var(--gradient-warning);
+  color: var(--color-white);
+  border: none;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+.btn-info {
+  background: var(--gradient-info);
+  color: var(--color-white);
+  border: none;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+.btn-danger {
+  background: var(--gradient-danger);
+  color: var(--color-white);
+  border: none;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  min-width: 44px;
+}
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--color-white);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  padding: 20px 25px;
+  border-radius: 15px 15px 0 0;
+}
+
+/* ========== UPLOAD ZONE ========== */
+.upload-zone {
+  border: 3px dashed var(--color-primary-solid);
+  border-radius: 20px;
+  padding: 50px 20px;
+  background: var(--color-light-bg);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-zone:hover {
+  background: #f0f4ff;
+  border-color: var(--color-primary-end);
+}
+
+/* ========== TEXT DISPLAY ========== */
+.text-display {
+  background: var(--color-white);
+  border-radius: 15px;
+  padding: 25px;
+  min-height: 200px;
+  font-size: 1.4em;
+  line-height: 1.8;
+  color: var(--color-black);
+  border: 2px solid var(--color-border);
+}
+
+/* ========== LOADING ========== */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--color-light-gray);
+  border-top: 5px solid var(--color-primary-solid);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+/* ========== UTILITIES ========== */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+.cursor-pointer { cursor: pointer; }
+
+/* ========== ACCESSIBILITY ========== */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-size {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-size-large {
+  width: 32px;
+  height: 32px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .mobile-frame {
+    width: 100%;
+    max-width: 375px;
+    height: auto;
+    min-height: 700px;
+  }
+  
+  .text-heading-1 {
+    font-size: 2em;
+  }
+  
+  .text-heading-2 {
+    font-size: 1.5em;
+  }
+}
+
+/* ========== FIGMA EXPORT NOTES ========== */
+/*
+  TO IMPORT INTO FIGMA:
+  
+  1. Use plugin "html.to.design"
+  2. Copy this entire CSS file
+  3. Or create styles manually using these tokens
+  
+  COLOR PALETTE:
+  - Primary: #667eea → #764ba2
+  - Success: #11998e → #38ef7d
+  - Warning: #f093fb → #f5576c
+  - Info: #4facfe → #00f2fe
+  
+  TYPOGRAPHY:
+  - Font: Inter / Segoe UI
+  - Sizes: 56px, 32px, 24px, 22.4px, 19.2px, 13.6px
+  - Weights: 400, 600, 700
+  
+  SPACING SCALE:
+  - 8, 12, 15, 20, 25, 30, 40px
+  
+  BORDER RADIUS:
+  - 10, 15, 20, 30px
+  
+  MOBILE FRAME:
+  - 375 x 812px
+  - iPhone Standard
+*/

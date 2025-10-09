@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - Import vào Figma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 i {
+            margin-right: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .method {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .method h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .method-badge {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.5em;
+            font-weight: bold;
+        }
+
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            overflow-x: auto;
+        }
+
+        .link-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .link-button i {
+            margin-right: 10px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .warning p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .tip h3 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .tip p {
+            color: #155724;
+            line-height: 1.6;
+        }
+
+        .video-placeholder {
+            background: #e0e0e0;
+            border-radius: 15px;
+            padding: 100px 20px;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .video-placeholder i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .checklist {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .checklist h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .checklist-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1em;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .method h2 {
+                font-size: 1.5em;
+            }
+
+            .steps li {
+                font-size: 1em;
+                padding-left: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fab fa-figma"></i> Quick Start Guide</h1>
+        <p class="subtitle">Import HTML Design vào Figma trong 5 phút</p>
+
+        <!-- Method 1 -->
+        <div class="method">
+            <h2>
+                <i class="fas fa-star"></i> 
+                Phương Pháp 1: html.to.design
+                <span class="method-badge">KHUYÊN DÙNG</span>
+            </h2>
+
+            <ul class="steps">
+                <li>
+                    <strong>Mở Figma</strong><br>
+                    Desktop: Mở app Figma<br>
+                    Web: <a href="https://www.figma.com" target="_blank">https://www.figma.com</a>
+                </li>
+
+                <li>
+                    <strong>Install Plugin</strong><br>
+                    Menu → Plugins → Browse plugins in Community<br>
+                    Tìm: <strong>"html.to.design"</strong><br>
+                    <a href="https://www.figma.com/community/plugin/1159123024924461424" target="_blank" class="link-button">
+                        <i class="fas fa-download"></i> Install Plugin
+                    </a>
+                </li>
+
+                <li>
+                    <strong>Copy HTML Code</strong><br>
+                    Mở file <code>ai-reader-mobile-figma.html</code><br>
+                    Select All (Ctrl + A) → Copy (Ctrl + C)
+                </li>
+
+                <li>
+                    <strong>Run Plugin</strong><br>
+                    Trong Figma: Menu → Plugins → html.to.design → Run<br>
+                    Hoặc: Right-click → Plugins → html.to.design
+                </li>
+
+                <li>
+                    <strong>Paste & Import</strong><br>
+                    Paste code vào plugin (Ctrl + V)<br>
+                    Check settings:
+                    <div class="code-block">
+☑ Import Styles
+☑ Import Images  
+☑ Responsive</div>
+                    Click: <strong>Import to Figma</strong>
+                </li>
+
+                <li>
+                    <strong>Hoàn Thành! 🎉</strong><br>
+                    Design đã được import vào Figma canvas
+                </li>
+            </ul>
+
+            <div class="tip">
+                <h3><i class="fas fa-lightbulb"></i> Pro Tip</h3>
+                <p>Nếu code quá dài, chia nhỏ thành từng section để import. Mỗi lần import 1 mobile screen sẽ dễ quản lý hơn!</p>
+            </div>
+        </div>
+
+        <!-- Method 2 -->
+        <div class="method">
+            <h2>
+                <i class="fas fa-camera"></i> 
+                Phương Pháp 2: Screenshot Method
+            </h2>
+
+            <ul class="steps">
+                <li>
+                    <strong>Mở HTML trong Browser</strong><br>
+                    Double-click file <code>ai-reader-mobile-figma.html</code><br>
+                    Zoom: 100%
+                </li>
+
+                <li>
+                    <strong>Chụp Screenshot</strong><br>
+                    Windows: Win + Shift + S<br>
+                    Mac: Cmd + Shift + 4<br>
+                    Chụp từng Mobile Screen riêng biệt
+                </li>
+
+                <li>
+                    <strong>Import vào Figma</strong><br>
+                    Drag & Drop ảnh vào Figma canvas<br>
+                    Hoặc: File → Place Image (Ctrl + Shift + K)
+                </li>
+
+                <li>
+                    <strong>Trace Elements</strong><br>
+                    Đặt screenshot làm background<br>
+                    Lock layer screenshot (Ctrl + L)<br>
+                    Vẽ lại từng element phía trên
+                </li>
+
+                <li>
+                    <strong>Sử dụng Design Tokens</strong><br>
+                    Copy màu sắc, font size từ file:<br>
+                    <code>figma-design-tokens.json</code>
+                </li>
+            </ul>
+
+            <div class="warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> Lưu Ý</h3>
+                <p>Method này mất thời gian hơn nhưng cho kết quả chính xác nhất. Phù hợp khi plugin không hoạt động.</p>
+            </div>
+        </div>
+
+        <!-- Method 3 -->
+        <div class="method">
+            <h2>
+                <i class="fas fa-copy"></i> 
+                Phương Pháp 3: Manual Import
+            </h2>
+
+            <ul class="steps">
+                <li>
+                    <strong>Tạo Mobile Frame</strong><br>
+                    Frame tool (F) → iPhone 13 Pro (375 x 812px)
+                </li>
+
+                <li>
+                    <strong>Setup Design System</strong><br>
+                    Tạo Color Styles từ <code>figma-design-tokens.json</code>:
+                    <div class="code-block">
+Primary: #667eea → #764ba2 (Gradient)
+Success: #11998e → #38ef7d (Gradient)
+Warning: #f093fb → #f5576c (Gradient)
+Info: #4facfe → #00f2fe (Gradient)</div>
+                </li>
+
+                <li>
+                    <strong>Tạo Text Styles</strong><br>
+                    <div class="code-block">
+Heading 1: 56px, Bold 700
+Heading 2: 32px, SemiBold 600
+Body Large: 22.4px, Regular 400
+Button: 19.2px, Bold 700</div>
+                </li>
+
+                <li>
+                    <strong>Vẽ Components</strong><br>
+                    - Buttons (Primary, Secondary, Success)<br>
+                    - Cards<br>
+                    - Upload Zone<br>
+                    - Bottom Navigation
+                </li>
+
+                <li>
+                    <strong>Compose Screens</strong><br>
+                    Ghép các components thành 4 screens:<br>
+                    1. Home/Upload<br>
+                    2. Processing<br>
+                    3. Result & Read<br>
+                    4. History
+                </li>
+
+                <li>
+                    <strong>Add Auto Layout</strong><br>
+                    Select elements → Shift + A<br>
+                    Configure spacing, padding, alignment
+                </li>
+            </ul>
+        </div>
+
+        <!-- Checklist -->
+        <div class="checklist">
+            <h3><i class="fas fa-tasks"></i> Checklist Sau Import</h3>
+            
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Layers đã được rename đúng cách</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Elements đã được group thành từng section</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Auto Layout đã được add cho containers</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Components đã được tạo (Buttons, Cards, etc.)</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Color Styles đã được tạo</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Text Styles đã được tạo</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Effect Styles (Shadows) đã được tạo</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Constraints đã được set đúng</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Prototype flow đã được tạo</span>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Prototype đã test và hoạt động tốt</span>
+            </label>
+        </div>
+
+        <!-- Resources -->
+        <div class="method">
+            <h2><i class="fas fa-link"></i> Useful Resources</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                <a href="https://www.figma.com/community/plugin/1159123024924461424" target="_blank" class="link-button" style="text-align: center;">
+                    <i class="fas fa-plug"></i> html.to.design Plugin
+                </a>
+
+                <a href="https://help.figma.com" target="_blank" class="link-button" style="text-align: center;">
+                    <i class="fas fa-book"></i> Figma Help Center
+                </a>
+
+                <a href="https://www.youtube.com/results?search_query=figma+tutorial" target="_blank" class="link-button" style="text-align: center;">
+                    <i class="fab fa-youtube"></i> Video Tutorials
+                </a>
+
+                <a href="https://forum.figma.com" target="_blank" class="link-button" style="text-align: center;">
+                    <i class="fas fa-comments"></i> Figma Forum
+                </a>
+            </div>
+        </div>
+
+        <!-- Video Placeholder -->
+        <div class="video-placeholder">
+            <i class="fas fa-video"></i>
+            <p><strong>Video Tutorial Coming Soon!</strong></p>
+            <p>Hướng dẫn chi tiết từng bước import HTML vào Figma</p>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="method">
+            <h2><i class="fas fa-wrench"></i> Troubleshooting</h2>
+
+            <div style="margin-top: 20px;">
+                <details style="margin-bottom: 15px; background: white; padding: 15px; border-radius: 10px; cursor: pointer;">
+                    <summary style="font-size: 1.2em; font-weight: bold; color: #667eea;">
+                        ❓ Plugin không install được?
+                    </summary>
+                    <p style="margin-top: 10px; line-height: 1.6;">
+                        1. Check internet connection<br>
+                        2. Refresh trang Figma (F5)<br>
+                        3. Thử Incognito mode<br>
+                        4. Clear browser cache<br>
+                        5. Thử Figma Desktop app
+                    </p>
+                </details>
+
+                <details style="margin-bottom: 15px; background: white; padding: 15px; border-radius: 10px; cursor: pointer;">
+                    <summary style="font-size: 1.2em; font-weight: bold; color: #667eea;">
+                        ❓ Code không import được?
+                    </summary>
+                    <p style="margin-top: 10px; line-height: 1.6;">
+                        1. Remove tất cả <code>&lt;script&gt;</code> tags<br>
+                        2. Simplify CSS (remove animations)<br>
+                        3. Import từng section riêng lẻ<br>
+                        4. Convert CSS variables thành giá trị cụ thể<br>
+                        5. Thử plugin khác hoặc dùng Screenshot method
+                    </p>
+                </details>
+
+                <details style="margin-bottom: 15px; background: white; padding: 15px; border-radius: 10px; cursor: pointer;">
+                    <summary style="font-size: 1.2em; font-weight: bold; color: #667eea;">
+                        ❓ Layout bị vỡ sau import?
+                    </summary>
+                    <p style="margin-top: 10px; line-height: 1.6;">
+                        1. Add Auto Layout manually (Shift + A)<br>
+                        2. Adjust constraints (Scale, Left & Right, etc.)<br>
+                        3. Remove absolute positioning<br>
+                        4. Regroup elements properly
+                    </p>
+                </details>
+
+                <details style="margin-bottom: 15px; background: white; padding: 15px; border-radius: 10px; cursor: pointer;">
+                    <summary style="font-size: 1.2em; font-weight: bold; color: #667eea;">
+                        ❓ Màu sắc không đúng?
+                    </summary>
+                    <p style="margin-top: 10px; line-height: 1.6;">
+                        1. Check CSS color values<br>
+                        2. Plugin có thể không support gradients<br>
+                        3. Tạo Color Styles manually từ design tokens<br>
+                        4. Sử dụng Color Picker để match chính xác
+                    </p>
+                </details>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="font-size: 1.2em; margin-bottom: 10px;">
+                <strong>Need More Help?</strong>
+            </p>
+            <p>
+                📖 Đọc file: <code>FIGMA-IMPORT-DETAILED-GUIDE.md</code><br>
+                📊 Xem: <code>figma-design-tokens.json</code><br>
+                🎨 Reference: <code>figma-css-export.css</code>
+            </p>
+            <p style="margin-top: 20px; color: #999;">
+                Created with ❤️ by AI Assistant | October 9, 2025
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Save checkbox state
+        const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+        
+        checkboxes.forEach((checkbox, index) => {
+            // Load saved state
+            const savedState = localStorage.getItem(`checkbox-${index}`);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+
+            // Save on change
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(`checkbox-${index}`, this.checked);
+            });
+        });
+    </script>
+</body>
+</html>
