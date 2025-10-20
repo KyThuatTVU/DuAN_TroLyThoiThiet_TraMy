@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Tích Dự Án - Trợ Lý Thời Tiết Trà My AI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @page {
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #16a085;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+        
+        .metadata {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            margin: 30px 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        code {
+            background: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+            font-size: 0.9em;
+        }
+        
+        pre code {
+            background: transparent;
+            color: #ecf0f1;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tr:hover {
+            background: #e8f4f8;
+        }
+        
+        .diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        .endpoint {
+            background: #f1f8ff;
+            border: 1px solid #c8e1ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+        
+        .method-get {
+            background: #61affe;
+            color: white;
+        }
+        
+        .method-post {
+            background: #49cc90;
+            color: white;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+        
+        .summary-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            body {
+                font-size: 11pt;
+            }
+            
+            .page-break {
+                page-break-after: always;
+            }
+            
+            pre, .diagram {
+                page-break-inside: avoid;
+            }
+            
+            .export-buttons {
+                display: none !important;
+            }
+        }
+        
+        /* Export Buttons Styling */
+        .export-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .export-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .export-btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-pdf {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-word {
+            background: linear-gradient(135deg, #2b5797, #1e3a5f);
+            color: white;
+        }
+        
+        .btn-print {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Export Buttons -->
+<div class="export-buttons">
+    <button class="export-btn btn-pdf" onclick="exportToPDF()">
+        <span>📄</span>
+        <span id="pdf-text">Xuất PDF</span>
+    </button>
+    <button class="export-btn btn-word" onclick="exportToWord()">
+        <span>📝</span>
+        <span>Xuất Word</span>
+    </button>
+    <button class="export-btn btn-print" onclick="printDocument()">
+        <span>🖨️</span>
+        <span>In</span>
+    </button>
+</div>
+
+<div id="content">
+
+<h1>🌤️ PHÂN TÍCH DỰ ÁN<br>TRỢ LÝ THỜI TIẾT TRÀ MY AI</h1>
+
+<div class="metadata">
+    <p><strong>Ngày phân tích:</strong> 11/10/2025</p>
+    <p><strong>Dự án:</strong> Hệ thống trợ lý thời tiết thông minh với SOAP & REST API</p>
+    <p><strong>Repository:</strong> DuAN_TroLyThoiThiet_TraMy</p>
+    <p><strong>Owner:</strong> KyThuatTVU</p>
+</div>
+
+<div class="toc">
+    <h2>📋 MỤC LỤC</h2>
+    <ul>
+        <li><a href="#section-1">1. Tổng quan dự án</a></li>
+        <li><a href="#section-2">2. Kiến trúc hệ thống</a></li>
+        <li><a href="#section-3">3. Phân tích dữ liệu thời tiết</a></li>
+        <li><a href="#section-4">4. Phân tích dữ liệu bản đồ</a></li>
+        <li><a href="#section-5">5. Phân tích chức năng chat AI</a></li>
+        <li><a href="#section-6">6. Cấu trúc thư mục</a></li>
+        <li><a href="#section-7">7. API Endpoints</a></li>
+        <li><a href="#section-8">8. Công nghệ sử dụng</a></li>
+        <li><a href="#section-9">9. Sơ đồ luồng dữ liệu chi tiết</a></li>
+        <li><a href="#section-10">10. Kết luận</a></li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-1">1. TỔNG QUAN DỰ ÁN</h2>
+
+<h3>1.1 Mô tả</h3>
+<p>Dự án <strong>Trợ lý thời tiết Trà My AI</strong> là một ứng dụng web tích hợp nhiều công nghệ để cung cấp thông tin thời tiết thông minh, hỗ trợ:</p>
+<ul class="feature-list">
+    <li>Tra cứu thời tiết theo thành phố</li>
+    <li>Hiển thị bản đồ vị trí</li>
+    <li>Chatbot AI với khả năng phân tích ảnh thời tiết</li>
+    <li>Tích hợp SOAP và REST API</li>
+</ul>
+
+<h3>1.2 Tính năng chính</h3>
+<div class="summary-box">
+    <ul class="feature-list">
+        <li>Tra cứu thời tiết hiện tại và dự báo</li>
+        <li>Hiển thị bản đồ tương tác (OpenStreetMap, Google Maps)</li>
+        <li>Chat với AI (Google Gemini 2.0)</li>
+        <li>Phân tích ảnh thời tiết bằng AI Vision</li>
+        <li>Giao diện đẹp, responsive</li>
+        <li>Drag & drop upload ảnh</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-2">2. KIẾN TRÚC HỆ THỐNG</h2>
+
+<h3>2.1 Sơ đồ kiến trúc tổng quan</h3>
+<div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────┐
+│                    FRONTEND (HTML/JS)                    │
+│              Frontend/index.html                         │
+│  - Giao diện người dùng                                 │
+│  - Xử lý tương tác                                      │
+│  - Gọi API Backend                                      │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  BACKEND (Node.js/Express)               │
+│                   Backend/server.js                      │
+│  - REST API Server                                      │
+│  - SOAP Service                                         │
+│  - Routing & Middleware                                 │
+└─────────────────────────────────────────────────────────┘
+         │                    │                    │
+         ▼                    ▼                    ▼
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│   Weather    │   │     Map      │   │  Chat AI     │
+│   Service    │   │   Service    │   │   Service    │
+│   (SOAP)     │   │   (SOAP)     │   │   (REST)     │
+└──────────────┘   └──────────────┘   └──────────────┘
+         │                    │                    │
+         ▼                    ▼                    ▼
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│OpenWeatherMap│   │OpenWeatherMap│   │ Google       │
+│ Weather API  │   │ Geocoding API│   │ Gemini AI    │
+└──────────────┘   └──────────────┘   └──────────────┘
+</pre>
+</div>
+
+<h3>2.2 Kiến trúc Backend</h3>
+<div class="diagram">
+<pre>
+Backend/
+├── server.js                    # Main server file
+├── config.js                    # Configuration
+├── routes/
+│   └── index.js                # API routing
+├── controllers/
+│   ├── weatherController.js    # Weather logic
+│   ├── chatController.js       # Chat logic
+│   └── imageWeatherController.js
+├── services/
+│   ├── geminiService.js        # AI service
+│   ├── mapService.js           # Map service
+│   └── googleSearchService.js  # Search service
+├── soap/
+│   ├── weatherService.js       # SOAP service
+│   └── weatherWsdl.xml         # WSDL definition
+└── middleware/
+    ├── index.js                # Middleware setup
+    └── upload.js               # Image upload handler
+</pre>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-3">3. PHÂN TÍCH DỮ LIỆU THỜI TIẾT</h2>
+
+<h3>3.1 Nguồn lấy dữ liệu thời tiết</h3>
+
+<h4>📍 File nguồn</h4>
+<p><strong>File:</strong> <code>Backend/soap/weatherService.js</code><br>
+<strong>Function:</strong> <code>getWeatherLogic(cityName)</code></p>
+
+<h4>🌐 API sử dụng</h4>
+<ul>
+    <li><strong>Provider:</strong> OpenWeatherMap API</li>
+    <li><strong>API Key:</strong> Cấu hình trong biến <code>OPENWEATHER_API_KEY</code> (file <code>.env</code>)</li>
+</ul>
+
+<h4>📡 Endpoints gọi</h4>
+<div class="endpoint">
+    <p><strong>1. Current Weather API</strong></p>
+    <pre><code>GET https://api.openweathermap.org/data/2.5/weather
+Parameters: 
+- q: tên thành phố
+- appid: API key
+- units: metric (Celsius)
+- lang: vi (Tiếng Việt)</code></pre>
+</div>
+
+<div class="endpoint">
+    <p><strong>2. Forecast API</strong> (dự báo 5 ngày)</p>
+    <pre><code>GET https://api.openweathermap.org/data/2.5/forecast
+Parameters:
+- lat, lon: tọa độ từ Current Weather API
+- appid: API key
+- units: metric
+- lang: vi</code></pre>
+</div>
+
+<h4>📊 Dữ liệu thu thập được</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Trường dữ liệu</th>
+            <th>Mô tả</th>
+            <th>Đơn vị</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>temperature</code></td>
+            <td>Nhiệt độ hiện tại</td>
+            <td>°C</td>
+        </tr>
+        <tr>
+            <td><code>humidity</code></td>
+            <td>Độ ẩm</td>
+            <td>%</td>
+        </tr>
+        <tr>
+            <td><code>description</code></td>
+            <td>Mô tả thời tiết</td>
+            <td>Text (Tiếng Việt)</td>
+        </tr>
+        <tr>
+            <td><code>windSpeed</code></td>
+            <td>Tốc độ gió</td>
+            <td>km/h</td>
+        </tr>
+        <tr>
+            <td><code>feelsLike</code></td>
+            <td>Cảm giác như</td>
+            <td>°C</td>
+        </tr>
+        <tr>
+            <td><code>visibility</code></td>
+            <td>Tầm nhìn</td>
+            <td>km</td>
+        </tr>
+        <tr>
+            <td><code>uvIndex</code></td>
+            <td>Chỉ số UV</td>
+            <td>0-10</td>
+        </tr>
+        <tr>
+            <td><code>cityName</code></td>
+            <td>Tên thành phố</td>
+            <td>Text</td>
+        </tr>
+        <tr>
+            <td><code>icon</code></td>
+            <td>Mã icon thời tiết</td>
+            <td>Code</td>
+        </tr>
+        <tr>
+            <td><code>tempMax/tempMin</code></td>
+            <td>Nhiệt độ cao nhất/thấp nhất</td>
+            <td>°C</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h3>3.2 Cách trả về kết quả thời tiết</h3>
+
+<h4>✅ Phương thức 1: SOAP Service</h4>
+<div class="highlight">
+    <p><strong>📍 Location:</strong> <code>Backend/soap/weatherService.js</code><br>
+    <strong>Function:</strong> <code>weatherServiceDefinition.WeatherService.WeatherPort.getWeather()</code></p>
+    <p><strong>Endpoint:</strong> <code>POST http://localhost:3000/weather</code><br>
+    <strong>Protocol:</strong> SOAP 1.1<br>
+    <strong>Content-Type:</strong> <code>text/xml</code></p>
+</div>
+
+<p><strong>SOAP Request Example:</strong></p>
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                  xmlns:weat="http://example.com/weather"&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;weat:getWeatherRequest&gt;
+         &lt;city&gt;Hanoi&lt;/city&gt;
+      &lt;/weat:getWeatherRequest&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<p><strong>SOAP Response Example:</strong></p>
+<pre><code>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+   &lt;soap:Body&gt;
+      &lt;getWeatherResponse xmlns="http://example.com/weather"&gt;
+         &lt;cityName&gt;Hanoi&lt;/cityName&gt;
+         &lt;temperature&gt;28.5&lt;/temperature&gt;
+         &lt;humidity&gt;75&lt;/humidity&gt;
+         &lt;description&gt;Nhiều mây&lt;/description&gt;
+         &lt;windSpeed&gt;15&lt;/windSpeed&gt;
+         &lt;feelsLike&gt;30.2&lt;/feelsLike&gt;
+         &lt;visibility&gt;10&lt;/visibility&gt;
+         &lt;uvIndex&gt;0&lt;/uvIndex&gt;
+         &lt;icon&gt;04d&lt;/icon&gt;
+         &lt;error&gt;&lt;/error&gt;
+      &lt;/getWeatherResponse&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</code></pre>
+
+<p><strong>Frontend gọi SOAP:</strong></p>
+<ul>
+    <li><strong>File:</strong> <code>Frontend/index.html</code></li>
+    <li><strong>Function:</strong> <code>fetchWeatherViaSOAP(city)</code></li>
+    <li><strong>Line:</strong> ~1160-1200</li>
+</ul>
+
+<h4>✅ Phương thức 2: REST API (JSON)</h4>
+<p><strong>📍 Controller:</strong> <code>Backend/controllers/weatherController.js</code><br>
+<strong>Class:</strong> <code>WeatherController</code></p>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-get">GET</span><strong>Thời tiết hiện tại</strong></p>
+    <pre><code>GET /api/weather?city={cityName}
+
+Response:
+{
+  "city": "Hanoi",
+  "temp": "28.5",
+  "humidity": 75,
+  "description": "Nhiều mây",
+  "windSpeed": 15,
+  "feelsLike": "30.2",
+  "visibility": 10,
+  "uvIndex": 0,
+  "timestamp": "2025-10-11T10:30:00.000Z"
+}</code></pre>
+</div>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-get">GET</span><strong>Dự báo nhiều ngày</strong></p>
+    <pre><code>GET /api/weather/forecast?city={cityName}&days=5
+
+Response:
+{
+  "city": "Hanoi",
+  "current": { ... },
+  "forecast": [
+    {
+      "date": "12/10/2025",
+      "temp": { "min": 24, "max": 32 },
+      "description": "Trời quang",
+      "humidity": 70,
+      "windSpeed": 12
+    },
+    ...
+  ],
+  "timestamp": "2025-10-11T10:30:00.000Z"
+}</code></pre>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-4">4. PHÂN TÍCH DỮ LIỆU BẢN ĐỒ</h2>
+
+<h3>4.1 Nguồn lấy dữ liệu bản đồ</h3>
+
+<h4>📍 File nguồn</h4>
+<p><strong>File:</strong> <code>Backend/services/mapService.js</code><br>
+<strong>Function:</strong> <code>getLocationLogic(cityName)</code></p>
+
+<h4>🌐 API sử dụng</h4>
+<div class="highlight">
+    <p><strong>Provider:</strong> OpenWeatherMap Geocoding API</p>
+    <pre><code>GET https://api.openweathermap.org/geo/1.0/direct
+Parameters:
+- q: cityName
+- limit: 1
+- appid: API_KEY</code></pre>
+</div>
+
+<h4>📊 Dữ liệu thu thập được</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Trường dữ liệu</th>
+            <th>Mô tả</th>
+            <th>Kiểu dữ liệu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>cityName</code></td>
+            <td>Tên thành phố chính thức</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>country</code></td>
+            <td>Mã quốc gia (VN, US, JP...)</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>state</code></td>
+            <td>Bang/Tỉnh/Vùng</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>latitude</code></td>
+            <td>Vĩ độ</td>
+            <td>Float (6 chữ số thập phân)</td>
+        </tr>
+        <tr>
+            <td><code>longitude</code></td>
+            <td>Kinh độ</td>
+            <td>Float (6 chữ số thập phân)</td>
+        </tr>
+        <tr>
+            <td><code>mapUrl</code></td>
+            <td>URL OpenStreetMap interactive</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>streetMapUrl</code></td>
+            <td>URL Google Maps street view</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>satelliteMapUrl</code></td>
+            <td>URL Google Maps satellite</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>timezone</code></td>
+            <td>Tên múi giờ</td>
+            <td>String</td>
+        </tr>
+        <tr>
+            <td><code>timezoneOffset</code></td>
+            <td>Offset múi giờ</td>
+            <td>Integer</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>4.2 Hiển thị bản đồ trên Frontend</h3>
+<p><strong>📍 File:</strong> <code>Frontend/index.html</code></p>
+<p><strong>Functions:</strong></p>
+<ul>
+    <li><code>displayMap(city)</code> - Lấy dữ liệu và hiển thị map (Line ~1390)</li>
+    <li><code>renderMap(locationData)</code> - Render iframe bản đồ (Line ~1450)</li>
+    <li><code>switchMapType(type)</code> - Chuyển đổi giữa OpenStreetMap và Google Maps</li>
+</ul>
+
+<div class="summary-box">
+    <h4>Các loại bản đồ:</h4>
+    <ol>
+        <li><strong>OpenStreetMap</strong> (Mặc định)
+            <ul>
+                <li>Embed iframe từ openstreetmap.org</li>
+                <li>Hiển thị marker tại tọa độ thành phố</li>
+            </ul>
+        </li>
+        <li><strong>Google Maps Satellite</strong>
+            <ul>
+                <li>Embed iframe Google Maps với layer satellite</li>
+                <li>Toggle bằng button "🛰️ Satellite"</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-5">5. PHÂN TÍCH CHỨC NĂNG CHAT AI</h2>
+
+<h3>5.1 Kiến trúc Chat System</h3>
+<div class="diagram">
+<pre>
+┌─────────────────────────────────────────────────────────┐
+│                    USER INPUT                            │
+│  - Text message                                         │
+│  - Image upload (optional)                              │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│              FRONTEND (index.html)                       │
+│  - sendMessage()                                        │
+│  - generateAIResponse() / sendMessageWithImage()        │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│         BACKEND CHAT CONTROLLER                          │
+│  controllers/chatController.js                          │
+│  - handleChat() - text chat                             │
+│  - handleChatWithImage() - image chat                   │
+└─────────────────────────────────────────────────────────┘
+         │                                        │
+         ▼                                        ▼
+┌──────────────────┐                   ┌──────────────────┐
+│ Weather Service  │                   │  Gemini Service  │
+│ (if city found)  │                   │  - askGemini()   │
+└──────────────────┘                   │  - analyzeImage()│
+         │                              └──────────────────┘
+         └────────────┬─────────────────────────┘
+                      ▼
+              ┌──────────────┐
+              │  AI Response │
+              └──────────────┘
+</pre>
+</div>
+
+<h3>5.2 AI Service (Gemini)</h3>
+
+<div class="highlight">
+    <h4>📍 Service File</h4>
+    <p><strong>File:</strong> <code>Backend/services/geminiService.js</code><br>
+    <strong>Class:</strong> <code>GeminiService</code></p>
+
+    <h4>🤖 AI Model</h4>
+    <ul>
+        <li><strong>Provider:</strong> Google Generative AI</li>
+        <li><strong>Model:</strong> <code>gemini-2.0-flash</code></li>
+        <li><strong>API Key:</strong> <code>GEMINI_API_KEY</code> (trong <code>.env</code>)</li>
+    </ul>
+</div>
+
+<h4>⚙️ Configuration</h4>
+<pre><code>generationConfig: {
+    temperature: 0.7,      // Độ sáng tạo
+    topK: 40,             // Top K sampling
+    topP: 0.95,           // Top P sampling
+    maxOutputTokens: 1024 // Max tokens per response
+}</code></pre>
+
+<h4>🔧 Methods</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Chức năng</th>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>init()</code></td>
+            <td>Khởi tạo service</td>
+            <td>-</td>
+            <td>void</td>
+        </tr>
+        <tr>
+            <td><code>askGemini()</code></td>
+            <td>Chat text</td>
+            <td>prompt string</td>
+            <td>AI response text</td>
+        </tr>
+        <tr>
+            <td><code>analyzeWeatherImage()</code></td>
+            <td>Phân tích ảnh</td>
+            <td>buffer, mimetype, prompt</td>
+            <td>AI analysis text</td>
+        </tr>
+        <tr>
+            <td><code>chatWithContext()</code></td>
+            <td>Chat với lịch sử</td>
+            <td>messages array</td>
+            <td>AI response</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h3>5.3 Cách trả về kết quả Chat</h3>
+
+<h4>✅ REST API Endpoints</h4>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-post">POST</span><strong>Chat thông thường</strong></p>
+    <pre><code>POST /api/chat
+POST /chat (legacy route)
+
+Request Body:
+{
+  "message": "Thời tiết Hà Nội hôm nay thế nào?"
+}
+
+Response:
+{
+  "reply": "Hà Nội hôm nay trời nhiều mây, nhiệt độ khoảng 28°C..."
+}</code></pre>
+    <p><strong>Frontend gọi:</strong> <code>generateAIResponse(message)</code> (Line ~1550)</p>
+</div>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-post">POST</span><strong>Chat với ảnh</strong></p>
+    <pre><code>POST /api/chat/image
+
+Request: FormData
+- image: File (image file)
+- message: String (optional)
+- location: String (optional)
+
+Response:
+{
+  "reply": "Từ ảnh bạn gửi, tôi thấy trời đang có mây đen..."
+}</code></pre>
+    <p><strong>Frontend gọi:</strong> <code>sendMessageWithImage(message, imageFile)</code> (Line ~1710)</p>
+</div>
+
+<h3>5.4 Tính năng đặc biệt của Chat</h3>
+
+<div class="summary-box">
+    <h4>📸 Image Upload Features</h4>
+    <ul class="feature-list">
+        <li><strong>Drag & Drop:</strong> Kéo thả ảnh vào trang web</li>
+        <li><strong>File picker:</strong> Click button để chọn file</li>
+        <li><strong>Preview:</strong> Xem trước ảnh trước khi gửi</li>
+        <li><strong>Lightbox:</strong> Click ảnh để phóng to</li>
+        <li><strong>Supported formats:</strong> JPG, PNG, GIF, WebP</li>
+        <li><strong>Max size:</strong> 10MB</li>
+    </ul>
+</div>
+
+<div class="warning-box">
+    <h4>🔍 Google Search Integration</h4>
+    <p><strong>File:</strong> <code>Backend/services/googleSearchService.js</code></p>
+    <p><strong>Kích hoạt khi:</strong></p>
+    <ul>
+        <li>Message chứa: "tin tức", "mới nhất", "hôm nay", "tìm kiếm"</li>
+        <li>Câu hỏi phức tạp cần thông tin real-time</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-6">6. CẤU TRÚC THƯ MỤC</h2>
+
+<div class="diagram">
+<pre>
+DuAnSOAP/
+│
+├── Backend/                          # Backend Node.js
+│   ├── server.js                    # Main server (102 lines)
+│   ├── config.js                    # Configuration
+│   ├── package.json                 # Dependencies
+│   │
+│   ├── controllers/                 # Request handlers
+│   │   ├── chatController.js       # Chat logic (405 lines)
+│   │   ├── weatherController.js    # Weather logic (133 lines)
+│   │   └── imageWeatherController.js
+│   │
+│   ├── services/                    # Business logic
+│   │   ├── geminiService.js        # Gemini AI (257 lines)
+│   │   ├── mapService.js           # Map service (103 lines)
+│   │   └── googleSearchService.js  # Search integration
+│   │
+│   ├── soap/                        # SOAP service
+│   │   ├── weatherService.js       # SOAP ops (200 lines)
+│   │   └── weatherWsdl.xml         # WSDL definition
+│   │
+│   ├── middleware/                  # Express middleware
+│   │   ├── index.js                # Middleware setup
+│   │   └── upload.js               # Image upload
+│   │
+│   └── routes/                      # API routes
+│       └── index.js                # Routes (104 lines)
+│
+├── Frontend/                         # Frontend HTML/CSS/JS
+│   ├── index.html                   # Main page (1925 lines)
+│   ├── css/
+│   │   └── map.css
+│   ├── js/
+│   │   └── map-service.js
+│   └── img/                         # Images
+│
+├── docker-compose.yml                # Docker config
+├── Dockerfile                        # Docker image
+└── README.md                         # Documentation
+</pre>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-7">7. API ENDPOINTS</h2>
+
+<h3>7.1 REST API Endpoints</h3>
+
+<h4>🔹 Weather APIs</h4>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-get">GET</span><code>/api/weather?city={cityName}</code></p>
+    <p><strong>Description:</strong> Lấy thời tiết hiện tại của thành phố</p>
+    <p><strong>Controller:</strong> <code>weatherController.getWeatherJSON()</code></p>
+</div>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-get">GET</span><code>/api/weather/forecast?city={cityName}&days={number}</code></p>
+    <p><strong>Description:</strong> Lấy dự báo thời tiết nhiều ngày (1-7 ngày)</p>
+    <p><strong>Controller:</strong> <code>weatherController.getForecast()</code></p>
+</div>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-get">GET</span><code>/api/weather/cities</code></p>
+    <p><strong>Description:</strong> Lấy danh sách thành phố được hỗ trợ</p>
+    <p><strong>Controller:</strong> <code>weatherController.getSupportedCities()</code></p>
+</div>
+
+<h4>🔹 Chat APIs</h4>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-post">POST</span><code>/api/chat</code> hoặc <code>/chat</code></p>
+    <p><strong>Description:</strong> Chat với AI bot</p>
+    <p><strong>Request:</strong> <code>{ "message": "string" }</code></p>
+    <p><strong>Response:</strong> <code>{ "reply": "string" }</code></p>
+    <p><strong>Controller:</strong> <code>chatController.handleChat()</code></p>
+</div>
+
+<div class="endpoint">
+    <p><span class="endpoint-method method-post">POST</span><code>/api/chat/image</code></p>
+    <p><strong>Description:</strong> Chat với ảnh thời tiết</p>
+    <p><strong>Request:</strong> FormData with 'image', 'message', 'location'</p>
+    <p><strong>Response:</strong> <code>{ "reply": "string" }</code></p>
+    <p><strong>Controller:</strong> <code>chatController.handleChatWithImage()</code></p>
+</div>
+
+<h3>7.2 SOAP Service</h3>
+
+<div class="endpoint">
+    <p><strong>WSDL:</strong> <code>GET http://localhost:3000/weather?wsdl</code></p>
+    <p><strong>Operations:</strong></p>
+    <ul>
+        <li><code>getWeather</code> - Lấy thông tin thời tiết</li>
+        <li><code>getLocation</code> - Lấy thông tin bản đồ</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-8">8. CÔNG NGHỆ SỬ DỤNG</h2>
+
+<h3>8.1 Backend Technologies</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Công nghệ</th>
+            <th>Version</th>
+            <th>Mục đích sử dụng</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Node.js</strong></td>
+            <td>Latest</td>
+            <td>JavaScript runtime</td>
+        </tr>
+        <tr>
+            <td><strong>Express.js</strong></td>
+            <td>4.x</td>
+            <td>Web framework</td>
+        </tr>
+        <tr>
+            <td><strong>soap</strong></td>
+            <td>Latest</td>
+            <td>SOAP service implementation</td>
+        </tr>
+        <tr>
+            <td><strong>axios</strong></td>
+            <td>Latest</td>
+            <td>HTTP client cho API calls</td>
+        </tr>
+        <tr>
+            <td><strong>@google/generative-ai</strong></td>
+            <td>Latest</td>
+            <td>Google Gemini AI SDK</td>
+        </tr>
+        <tr>
+            <td><strong>multer</strong></td>
+            <td>Latest</td>
+            <td>File upload handling</td>
+        </tr>
+        <tr>
+            <td><strong>dotenv</strong></td>
+            <td>Latest</td>
+            <td>Environment variables</td>
+        </tr>
+        <tr>
+            <td><strong>cors</strong></td>
+            <td>Latest</td>
+            <td>Cross-origin resource sharing</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>8.2 Frontend Technologies</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Công nghệ</th>
+            <th>Mục đích</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>HTML5</strong></td>
+            <td>Markup language</td>
+        </tr>
+        <tr>
+            <td><strong>CSS3</strong></td>
+            <td>Styling (gradient, animation, flexbox, grid)</td>
+        </tr>
+        <tr>
+            <td><strong>Vanilla JavaScript</strong></td>
+            <td>Client-side logic</td>
+        </tr>
+        <tr>
+            <td><strong>Fetch API</strong></td>
+            <td>AJAX requests</td>
+        </tr>
+        <tr>
+            <td><strong>DOMParser</strong></td>
+            <td>XML parsing (SOAP responses)</td>
+        </tr>
+        <tr>
+            <td><strong>FormData API</strong></td>
+            <td>File upload</td>
+        </tr>
+        <tr>
+            <td><strong>Drag & Drop API</strong></td>
+            <td>Image upload UX</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>8.3 External APIs</h3>
+<table>
+    <thead>
+        <tr>
+            <th>API</th>
+            <th>Provider</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Weather API</strong></td>
+            <td>OpenWeatherMap</td>
+            <td>Current weather, forecast</td>
+        </tr>
+        <tr>
+            <td><strong>Geocoding API</strong></td>
+            <td>OpenWeatherMap</td>
+            <td>City coordinates</td>
+        </tr>
+        <tr>
+            <td><strong>Gemini AI</strong></td>
+            <td>Google</td>
+            <td>Text generation, image analysis</td>
+        </tr>
+        <tr>
+            <td><strong>OpenStreetMap</strong></td>
+            <td>OSM</td>
+            <td>Map iframe</td>
+        </tr>
+        <tr>
+            <td><strong>Google Maps</strong></td>
+            <td>Google</td>
+            <td>Map iframe, satellite view</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2 id="section-9">9. SƠ ĐỒ LUỒNG DỮ LIỆU CHI TIẾT</h2>
+
+<h3>9.1 Luồng lấy thời tiết (SOAP)</h3>
+<div class="diagram">
+<pre>
+User Input "Hanoi"
+       │
+       ▼
+Frontend: getWeather()
+       │
+       ▼
+fetchWeatherViaSOAP()
+Create SOAP XML request
+       │
+       ▼
+POST http://localhost:3000/weather
+       │
+       ▼
+Backend SOAP Service
+weatherService.js
+       │
+       ▼
+getWeatherLogic(city)
+       │
+       ▼
+Call OpenWeatherMap API
+1. Current Weather API
+2. Forecast API
+       │
+       ▼
+Parse & format response
+       │
+       ▼
+Wrap in SOAP XML
+       │
+       ▼
+Frontend: parse XML
+       │
+       ▼
+displayWeather(data)
+Update DOM
+</pre>
+</div>
+
+<h3>9.2 Luồng chat với AI</h3>
+<div class="diagram">
+<pre>
+User types message
+       │
+       ▼
+Frontend: sendMessage()
+       │
+       ▼
+POST /chat with message
+       │
+       ▼
+chatController.handleChat()
+       │
+       ├──→ findCityInMessage()
+       │    Found: "Hà Nội"
+       │         │
+       │         ▼
+       │    getWeatherLogic("Hà Nội")
+       │    weatherData = {...}
+       │
+       ├──→ needsGoogleSearch()
+       │    Check keywords
+       │
+       ▼
+createAIPrompt()
+Combine: message + weather + search
+       │
+       ▼
+geminiService.askGemini(prompt)
+       │
+       ▼
+Call Gemini AI API
+Model: gemini-2.0-flash
+       │
+       ▼
+AI processes & generates response
+       │
+       ▼
+Return to controller
+       │
+       ▼
+Frontend receives response
+       │
+       ▼
+Display in chatbox
+</pre>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="section-10">10. KẾT LUẬN</h2>
+
+<h3>10.1 Điểm mạnh của dự án</h3>
+<div class="summary-box">
+    <ul class="feature-list">
+        <li><strong>Kiến trúc hybrid SOAP + REST</strong> - Thể hiện hiểu biết về cả kiến trúc cũ và mới</li>
+        <li><strong>Tích hợp AI hiện đại</strong> - Sử dụng Google Gemini 2.0 Flash</li>
+        <li><strong>Phân tích ảnh thông minh</strong> - Gemini Vision cho weather image analysis</li>
+        <li><strong>UI/UX đẹp</strong> - Gradient animation, responsive, smooth transitions</li>
+        <li><strong>Code structure tốt</strong> - Separation of concerns (controllers, services, routes)</li>
+        <li><strong>Error handling</strong> - Try-catch blocks, validation middleware</li>
+        <li><strong>Multiple data sources</strong> - Weather API + Geocoding + AI</li>
+        <li><strong>Interactive map</strong> - Multiple map providers, switch between types</li>
+    </ul>
+</div>
+
+<h3>10.2 Điểm có thể cải thiện</h3>
+<div class="warning-box">
+    <ul>
+        <li>🔸 <strong>Caching</strong> - Implement Redis/memory cache cho weather data</li>
+        <li>🔸 <strong>Rate limiting</strong> - Protect APIs from abuse</li>
+        <li>🔸 <strong>Authentication</strong> - Add user authentication cho advanced features</li>
+        <li>🔸 <strong>Database</strong> - Store chat history, favorite cities</li>
+        <li>🔸 <strong>Testing</strong> - Unit tests, integration tests</li>
+        <li>🔸 <strong>Logging</strong> - Structured logging (Winston, Morgan)</li>
+        <li>🔸 <strong>API documentation</strong> - Swagger/OpenAPI docs</li>
+        <li>🔸 <strong>i18n</strong> - Multi-language support</li>
+    </ul>
+</div>
+
+<h3>10.3 Tech Stack Summary</h3>
+<div class="diagram">
+<pre>
+┌─────────────────────────────────────┐
+│          FRONTEND                   │
+│  HTML5 + CSS3 + Vanilla JS          │
+└─────────────────────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────┐
+│          BACKEND                    │
+│  Node.js + Express.js               │
+│  SOAP Service (node-soap)           │
+│  REST API                           │
+└─────────────────────────────────────┘
+                 │
+          ┌──────┴──────┐
+          ▼             ▼
+┌──────────────┐  ┌─────────────┐
+│ External APIs│  │ AI Service  │
+│ OpenWeather  │  │ Gemini 2.0  │
+│ Google Maps  │  │             │
+└──────────────┘  └─────────────┘
+</pre>
+</div>
+
+<div class="page-break"></div>
+
+<h2>PHỤ LỤC</h2>
+
+<h3>A. Environment Variables</h3>
+<pre><code># Server
+PORT=3000
+NODE_ENV=development
+
+# APIs
+OPENWEATHER_API_KEY=your_openweather_api_key
+GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_SEARCH_API_KEY=your_google_search_key (optional)
+GOOGLE_SEARCH_CX=your_custom_search_engine_id (optional)
+</code></pre>
+
+<h3>B. Installation & Run</h3>
+<pre><code># Install dependencies
+cd Backend
+npm install
+
+# Create .env file
+cp .env.example .env
+# Edit .env with your API keys
+
+# Run server
+npm start
+
+# Server will be available at:
+# http://localhost:3000
+</code></pre>
+
+<h3>C. Docker Deployment</h3>
+<pre><code># Build and run with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop
+docker-compose down
+</code></pre>
+
+<hr>
+
+<div style="text-align: center; margin-top: 50px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <p><strong>Tài liệu được tạo tự động từ phân tích mã nguồn</strong></p>
+    <p><strong>Repository:</strong> DuAN_TroLyThoiThiet_TraMy</p>
+    <p><strong>Owner:</strong> KyThuatTVU</p>
+    <p><strong>Ngày:</strong> 11/10/2025</p>
+    <p><strong>Phiên bản:</strong> 1.0</p>
+</div>
+
+</div>
+
+<script>
+    // Export to PDF function using browser's print to PDF
+    function exportToPDF() {
+        const button = document.getElementById('pdf-text');
+        const originalText = button.textContent;
+        
+        // Show loading
+        button.innerHTML = '<span class="loading-spinner"></span> Đang chuẩn bị...';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            
+            // Hide export buttons before printing
+            const exportButtons = document.querySelector('.export-buttons');
+            exportButtons.style.display = 'none';
+            
+            // Trigger print dialog
+            window.print();
+            
+            // Show buttons again after print dialog
+            setTimeout(() => {
+                exportButtons.style.display = 'flex';
+                alert('💡 Hướng dẫn:\n\n1. Trong hộp thoại In, chọn "Destination" → "Save as PDF"\n2. Nhấn "Save" để lưu file PDF\n\n✅ File PDF sẽ giữ nguyên màu sắc và định dạng đẹp!');
+            }, 500);
+        }, 300);
+    }
+    
+    // Export to Word function
+    function exportToWord() {
+        // Show loading message
+        alert('🔄 Đang chuẩn bị file Word...\n\nVui lòng chờ trong giây lát!');
+        
+        try {
+            // Get the content
+            const content = document.getElementById('content');
+            const htmlContent = content.innerHTML;
+            
+            // Create a complete HTML document for Word with proper encoding
+            const preHtml = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                      xmlns:w='urn:schemas-microsoft-com:office:word' 
+                      xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>Phân Tích Dự Án - Trợ Lý Thời Tiết Trà My AI</title>
+                    <!--[if gte mso 9]>
+                    <xml>
+                        <w:WordDocument>
+                            <w:View>Print</w:View>
+                            <w:Zoom>100</w:Zoom>
+                            <w:DoNotOptimizeForBrowser/>
+                        </w:WordDocument>
+                    </xml>
+                    <![endif]-->
+                    <style>
+                        body { 
+                            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif; 
+                            line-height: 1.6;
+                            max-width: 21cm;
+                            margin: 2cm auto;
+                            color: #333;
+                        }
+                        h1 { 
+                            color: #2c3e50; 
+                            border-bottom: 3px solid #3498db; 
+                            padding-bottom: 10px;
+                            text-align: center;
+                            font-size: 28pt;
+                        }
+                        h2 { 
+                            color: #34495e; 
+                            border-bottom: 2px solid #95a5a6; 
+                            padding-bottom: 8px; 
+                            margin-top: 30px;
+                            font-size: 20pt;
+                        }
+                        h3 { 
+                            color: #2980b9; 
+                            margin-top: 20px;
+                            font-size: 16pt;
+                        }
+                        h4 {
+                            color: #16a085;
+                            font-size: 14pt;
+                        }
+                        pre { 
+                            background: #2c3e50; 
+                            color: #ecf0f1; 
+                            padding: 15px; 
+                            border-radius: 5px;
+                            font-family: 'Courier New', monospace;
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
+                        }
+                        code {
+                            background: #ecf0f1;
+                            padding: 2px 6px;
+                            border-radius: 3px;
+                            font-family: 'Courier New', monospace;
+                            color: #e74c3c;
+                        }
+                        table { 
+                            width: 100%; 
+                            border-collapse: collapse; 
+                            margin: 20px 0;
+                        }
+                        th { 
+                            background: #3498db; 
+                            color: white; 
+                            padding: 12px; 
+                            text-align: left;
+                            font-weight: bold;
+                        }
+                        td { 
+                            padding: 10px; 
+                            border: 1px solid #ddd;
+                        }
+                        tr:nth-child(even) {
+                            background: #f8f9fa;
+                        }
+                        .diagram { 
+                            background: #f8f9fa; 
+                            padding: 20px; 
+                            border: 2px solid #3498db;
+                            border-radius: 5px;
+                            font-family: monospace;
+                        }
+                        .metadata {
+                            text-align: center;
+                            background: #ecf0f1;
+                            padding: 15px;
+                            border-radius: 5px;
+                            margin-bottom: 30px;
+                        }
+                        .toc {
+                            background: #f8f9fa;
+                            padding: 20px;
+                            border-left: 4px solid #3498db;
+                            margin: 30px 0;
+                        }
+                        .summary-box {
+                            background: #e8f5e9;
+                            border: 2px solid #4caf50;
+                            border-radius: 8px;
+                            padding: 20px;
+                            margin: 20px 0;
+                        }
+                        .warning-box {
+                            background: #fff3e0;
+                            border: 2px solid #ff9800;
+                            border-radius: 8px;
+                            padding: 20px;
+                            margin: 20px 0;
+                        }
+                        .highlight {
+                            background: #fff3cd;
+                            padding: 15px;
+                            border-left: 4px solid #ffc107;
+                            margin: 20px 0;
+                        }
+                        .endpoint {
+                            background: #f1f8ff;
+                            border: 1px solid #c8e1ff;
+                            border-radius: 5px;
+                            padding: 15px;
+                            margin: 15px 0;
+                        }
+                        .feature-list {
+                            list-style: none;
+                            padding-left: 0;
+                        }
+                        .feature-list li {
+                            padding: 8px 0;
+                            padding-left: 30px;
+                        }
+                        ul {
+                            padding-left: 20px;
+                        }
+                        li {
+                            margin: 5px 0;
+                        }
+                    </style>
+                </head>
+                <body>`;
+            
+            const postHtml = `</body></html>`;
+            
+            const fullHtml = preHtml + htmlContent + postHtml;
+            
+            // Method 1: Try using Blob and download link
+            try {
+                // Create blob with BOM for UTF-8
+                const blob = new Blob(['\ufeff', fullHtml], {
+                    type: 'application/msword;charset=utf-8'
+                });
+                
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'PhanTich_DuAn_TraMy_AI.doc';
+                link.style.display = 'none';
+                
+                // Add to DOM and trigger download
+                document.body.appendChild(link);
+                link.click();
+                
+                // Cleanup
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                // Show success message
+                setTimeout(() => {
+                    alert('✅ Đã xuất file Word thành công!\n\n📁 Tên file: PhanTich_DuAn_TraMy_AI.doc\n\n💡 Mở file bằng Microsoft Word để xem với định dạng đẹp.');
+                }, 500);
+                
+            } catch (blobError) {
+                // Method 2: Fallback to window.open
+                console.warn('Blob method failed, trying window.open:', blobError);
+                
+                // Create a data URL
+                const dataUrl = 'data:application/msword;charset=utf-8,' + encodeURIComponent('\ufeff' + fullHtml);
+                
+                // Open in new window/tab
+                const newWindow = window.open(dataUrl, '_blank');
+                
+                if (!newWindow) {
+                    throw new Error('Popup blocked. Please allow popups for this site.');
+                }
+                
+                // Show instructions
+                setTimeout(() => {
+                    alert('📄 File Word đã mở trong tab mới!\n\n💡 Để lưu file:\n1. Nhấn Ctrl+S (hoặc Cmd+S trên Mac)\n2. Chọn nơi lưu và đặt tên: PhanTich_DuAn_TraMy_AI.doc\n3. Nhấn Save');
+                }, 1000);
+            }
+            
+        } catch (error) {
+            alert('❌ Lỗi khi xuất Word: ' + error.message + '\n\n💡 Thử cách khác:\n1. Nhấn Ctrl+P để in\n2. Chọn "Save as PDF" để lưu PDF\n3. Hoặc copy nội dung và paste vào Word');
+        }
+    }
+    
+    // Print function
+    function printDocument() {
+        // Hide export buttons before printing
+        const exportButtons = document.querySelector('.export-buttons');
+        exportButtons.style.display = 'none';
+        
+        // Trigger print dialog
+        window.print();
+        
+        // Show buttons again after print dialog closes
+        setTimeout(() => {
+            exportButtons.style.display = 'flex';
+        }, 500);
+    }
+    
+    // Handle print media query events
+    if (window.matchMedia) {
+        const mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            const exportButtons = document.querySelector('.export-buttons');
+            if (mql.matches) {
+                // Before print
+                exportButtons.style.display = 'none';
+            } else {
+                // After print
+                exportButtons.style.display = 'flex';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

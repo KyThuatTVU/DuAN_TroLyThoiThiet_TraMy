@@ -600,6 +600,26 @@
             transform: scale(1.1);
         }
 
+        /* === RETRY BUTTON STYLES === */
+        .retry-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.5);
+        }
+
         /* === CHAT IMAGE STYLES === */
         .message-image {
             max-width: 250px;
@@ -1129,14 +1149,18 @@
             <div class="message bot-message">
                 Chào bạn! 👋 Mình là Trà My - trợ lý AI thời tiết thân thiện! 😊💖
                 <br><br>Mình có thể giúp bạn:
-                <br>• 🌤️ Thời tiết hiện tại
-                <br>• 📅 Dự báo 7 ngày
+                <br>• 🌤️ Thời tiết hiện tại & dự báo
+                <br>• 📅 Dự báo 7 ngày chi tiết
                 <br>• 👗 Tư vấn trang phục xinh đẹp
-                <br>• 📸 Phân tích ảnh thời tiết
-                <br>• 🏙️ So sánh thành phố
-                <br>• 🔍 Tìm kiếm thông tin thời tiết mới nhất
-                <br>• 📰 Tin tức bão lụt, thiên tai
-                <br><br>Hãy thử hỏi mình hoặc gửi ảnh thời tiết nhé! ✨
+                <br>• 📸 Phân tích ảnh thời tiết (có thể tạm thời không khả dụng)
+                <br>• 🏙️ So sánh thời tiết các thành phố
+                <br>• 🔍 Tìm kiếm tin tức thời tiết mới nhất
+                <br>• 📰 Cảnh báo bão lụt, thiên tai
+                <br><br><strong>Lưu ý:</strong> Nếu gặp lỗi API, bạn vẫn có thể:
+                <br>• 🌤️ Sử dụng chức năng thời tiết cơ bản
+                <br>• 🗺️ Xem bản đồ thời tiết
+                <br>• 📞 Liên hệ hỗ trợ
+                <br><br>Hãy thử hỏi mình nhé! ✨
             </div>
         </div>
         
@@ -1441,6 +1465,35 @@
     const originalGetWeather = getWeather;
     
     // --- CHỨC NĂNG CHATBOT AI ---
+    let lastRequestTime = 0;
+    const MIN_REQUEST_INTERVAL = 2000; // 2 giây giữa các request
+    let lastRequest = null; // Lưu trữ yêu cầu cuối cùng để retry
+
+    // Hàm thử lại yêu cầu cuối cùng
+    async function retryLastRequest() {
+        if (!lastRequest) {
+            addMessage('❌ Không có yêu cầu nào để thử lại!', 'bot');
+            return;
+        }
+
+        addMessage('🔄 Đang thử lại yêu cầu...', 'bot');
+        showTyping();
+
+        try {
+            let aiReply;
+            if (lastRequest.type === 'image') {
+                aiReply = await sendMessageWithImage(lastRequest.message, lastRequest.imageFile);
+            } else {
+                aiReply = await generateAIResponse(lastRequest.message);
+            }
+            hideTyping();
+            addMessage(aiReply, 'bot');
+        } catch (error) {
+            hideTyping();
+            addMessage(`⚠️ Thử lại thất bại: ${error.message}`, 'bot');
+        }
+    }
+    
     function toggleChat() {
         const container = document.getElementById('chatbotContainer');
         const toggle = document.querySelector('.chatbot-toggle');
@@ -1508,6 +1561,12 @@
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('❌ Server error:', errorText);
+                
+                // Xử lý lỗi quota Gemini
+                if (errorText.includes('RATE_LIMIT_EXCEEDED') || errorText.includes('Quota exceeded')) {
+                    return `⚠️ Trà My đang bận! 😅\n\nMình đang gặp vấn đề với API AI. Bạn có thể thử lại sau vài phút nhé!\n\nTrong lúc chờ, mình có thể giúp bạn:\n• 🌤️ Xem thời tiết hiện tại\n• 🗺️ Xem bản đồ thành phố\n• 📞 Liên hệ hỗ trợ\n\nHoặc bạn có thể thử các chức năng khác trên website! ✨\n\n<button onclick="retryLastRequest()" class="retry-btn">🔄 Thử lại</button>`;
+                }
+                
                 throw new Error(`Server error ${response.status}: ${errorText}`);
             }
 
@@ -1517,7 +1576,7 @@
             return data.reply || "Bot không trả lời được.";
         } catch (error) {
             console.error("❌ Lỗi gọi API chat:", error);
-            return `⚠️ Lỗi kết nối: ${error.message}. Server có đang chạy không?`;
+            throw error; // Không sử dụng fallback response
         }
     }
 
@@ -1705,6 +1764,14 @@
         
         if (!message && !selectedImage) return;
 
+        // Kiểm tra rate limiting
+        const now = Date.now();
+        if (now - lastRequestTime < MIN_REQUEST_INTERVAL) {
+            addMessage('⏰ Hãy chờ một chút trước khi gửi tin nhắn tiếp theo! 😊', 'bot');
+            return;
+        }
+        lastRequestTime = now;
+
         // Lưu thông tin ảnh trước khi xóa
         let imageData = null;
         if (selectedImage) {
@@ -1735,10 +1802,12 @@
 
             if (selectedImage) {
                 // Gửi với ảnh
+                lastRequest = { type: 'image', message: message, imageFile: selectedImage };
                 aiReply = await sendMessageWithImage(message, selectedImage);
                 removeImage(); // Xóa ảnh sau khi gửi
             } else {
                 // Gửi tin nhắn thông thường
+                lastRequest = { type: 'text', message: message };
                 aiReply = await generateAIResponse(message);
             }
 
@@ -1768,16 +1837,22 @@
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('❌ Server error:', errorText);
+                
+                // Xử lý lỗi quota Gemini cho ảnh
+                if (errorText.includes('RATE_LIMIT_EXCEEDED') || errorText.includes('Quota exceeded')) {
+                    return `⚠️ Trà My đang bận phân tích ảnh! 📸😅\n\nAPI AI đang đạt giới hạn sử dụng. Bạn có thể:\n• ⏰ Thử lại sau 1-2 phút\n• 📝 Mô tả thời tiết bằng text\n• 🌤️ Sử dụng chức năng thời tiết thông thường\n\nXin lỗi vì sự bất tiện! Mình sẽ cố gắng cải thiện dịch vụ. ✨\n\n<button onclick="retryLastRequest()" class="retry-btn">🔄 Thử lại</button>`;
+                }
+                
                 throw new Error(`Server error ${response.status}: ${errorText}`);
             }
 
             const data = await response.json();
             console.log('✅ Server response data:', data);
             
-            return data.reply || "Bot không trả lời được.";
+            return data.reply || "Bot không phân tích được ảnh.";
         } catch (error) {
             console.error("❌ Lỗi gọi API chat với ảnh:", error);
-            return `⚠️ Lỗi kết nối: ${error.message}. Server có đang chạy không?`;
+            throw error; // Không sử dụng fallback response
         }
     }
 
@@ -1869,7 +1944,7 @@
         if (currentMapType === 'google') {
             mapDisplay.innerHTML = `
                 <iframe 
-                    src="https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=${lat},${lon}&zoom=12" 
+                    src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBxAR0-1eolgf6ZN-5Uje-od7hfZU-hO_Y&center=${lat},${lon}&zoom=12" 
                     width="100%" 
                     height="100%" 
                     style="border:0; border-radius: 8px;" 
